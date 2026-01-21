@@ -83,8 +83,8 @@ function App() {
                 max={10}
               />
             </Paper>
-            <Paper sx={{ p: 2, flex: 1, minHeight: 400 }}>
-              <Box sx={{ height: '100%' }}>
+            <Paper sx={{ p: 2, flex: 1, minHeight: 500 }}>
+              <Box sx={{ height: '100%', minHeight: 450 }}>
                 <ProbabilityDistributionChart
                   distributions={distributionsForChart}
                   labels={distributionLabels}
@@ -94,8 +94,8 @@ function App() {
           </Box>
 
           <Box sx={{ flex: 1 }}>
-            <Paper sx={{ p: 2, minHeight: 400 }}>
-              <Box sx={{ height: '100%' }}>
+            <Paper sx={{ p: 2, minHeight: 500 }}>
+              <Box sx={{ height: '100%', minHeight: 450 }}>
                 <AmplitudeChart
                   amplitudeData={amplitudeData}
                   label={`${t(`distribution.${distributionType}`)} (${convolutionCount}x)`}
