@@ -19,6 +19,8 @@
   "amplitude": {
     "title": "振幅特性",
     "xAxis": "角周波数",
-    "yAxis": "振幅"
+    "yAxis": "振幅",
+    "yAxisDb": "振幅 (dB)",
+    "dbSwitch": "dB 表示"
   }
 }

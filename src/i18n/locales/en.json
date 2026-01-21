@@ -19,6 +19,8 @@
   "amplitude": {
     "title": "Amplitude Characteristics",
     "xAxis": "Angular Frequency",
-    "yAxis": "Amplitude"
+    "yAxis": "Amplitude",
+    "yAxisDb": "Amplitude (dB)",
+    "dbSwitch": "dB view"
   }
 }

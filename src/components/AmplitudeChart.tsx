@@ -32,11 +32,13 @@ ChartJS.register(
 interface AmplitudeChartProps {
   amplitudeDataArray: AmplitudePoint[][];
   labels: string[];
+  isDb?: boolean;
 }
 
 export function AmplitudeChart({
   amplitudeDataArray,
   labels,
+  isDb = false,
 }: AmplitudeChartProps) {
   const { t } = useTranslation();
 
@@ -45,16 +47,17 @@ export function AmplitudeChart({
       // 色は畳み込み回数に基づいて固定
       const hue = [0, 25, 50, 70, 120, 180, 210, 250, 290, 330][index % 10];
       const luminance = [70, 60, 50, 48, 60, 50, 60, 70, 70, 70][index % 10];
+      const toDb = (amp: number) => 20 * Math.log10(Math.max(amp, 1e-12));
 
       return {
         label: labels[index] || `Amplitude ${index + 1}`,
         data: amplitudeData.map((point) => ({
           x: point.angularFrequency,
-          y: point.amplitude,
+          y: isDb ? toDb(point.amplitude) : point.amplitude,
         })),
         borderColor: `hsl(${hue}, 80%, ${luminance}%)`,
         backgroundColor: `hsla(${hue}, 80%, ${luminance}%, 0.08)`,
-        fill: index === amplitudeDataArray.length - 1 ? 'origin' : '+1',
+        fill: index === amplitudeDataArray.length - 1 ? 'start' : '+1',
         tension: 0,
         pointRadius: 0,
         pointHoverRadius: 3,
@@ -64,7 +67,7 @@ export function AmplitudeChart({
     return {
       datasets,
     };
-  }, [amplitudeDataArray, labels]);
+  }, [amplitudeDataArray, labels, isDb]);
 
   const options: ChartOptions<'line'> = {
     responsive: true,
@@ -96,9 +99,11 @@ export function AmplitudeChart({
       y: {
         title: {
           display: true,
-          text: t('amplitude.yAxis'),
+          text: isDb ? t('amplitude.yAxisDb') : t('amplitude.yAxis'),
         },
-        beginAtZero: true,
+        min: isDb ? -100 : undefined,
+        max: isDb ? 10 : undefined,
+        beginAtZero: !isDb,
       },
     },
   };
