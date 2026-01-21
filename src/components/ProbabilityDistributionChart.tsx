@@ -1,4 +1,6 @@
 import { useMemo } from 'react';
+import { CssVarsProvider } from '@mui/joy/styles';
+import AspectRatio from '@mui/joy/AspectRatio';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -8,6 +10,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  Filler,
   type ChartOptions,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
@@ -21,7 +24,8 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler
 );
 
 interface ProbabilityDistributionChartProps {
@@ -42,15 +46,20 @@ export function ProbabilityDistributionChart({
         xValues.push(i);
       }
 
+      // 色は畳み込み回数に基づいて固定
+      const hue = [0, 25, 50, 70, 120, 180, 210, 250, 290, 330][index % 10];
+      const luminance = [70, 60, 50, 48, 60, 50, 60, 70, 70, 70][index % 10];
+
       return {
         label: labels[index] || `Distribution ${index + 1}`,
         data: dist.map((prob, idx) => ({
           x: idx,
           y: prob,
         })),
-        borderColor: `hsl(${(index * 360) / distributions.length}, 70%, 50%)`,
-        backgroundColor: `hsla(${(index * 360) / distributions.length}, 70%, 50%, 0.1)`,
-        tension: 0.1,
+        borderColor: `hsl(${hue}, 80%, ${luminance}%)`,
+        backgroundColor: `hsla(${hue}, 80%, ${luminance}%, 0.08)`,
+        fill: true,
+        tension: 0,
         pointRadius: 3,
         pointHoverRadius: 5,
       };
@@ -96,5 +105,15 @@ export function ProbabilityDistributionChart({
     },
   };
 
-  return <Line data={chartData} options={options} />;
+  return (
+    <CssVarsProvider>
+      <AspectRatio
+        variant="plain"
+        ratio="2 / 1"
+        sx={{ width: '100%', minWidth: 0 }}
+      >
+        <Line data={chartData} options={options} />
+      </AspectRatio>
+    </CssVarsProvider>
+  );
 }

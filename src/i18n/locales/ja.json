@@ -2,6 +2,11 @@
   "app": {
     "title": "中心極限定理可視化"
   },
+  "language": {
+    "select": "言語を選択",
+    "japanese": "日本語",
+    "english": "英語"
+  },
   "distribution": {
     "title": "確率分布",
     "select": "分布を選択",

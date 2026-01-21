@@ -2,6 +2,11 @@
   "app": {
     "title": "Central Limit Theorem Visualizer"
   },
+  "language": {
+    "select": "Select Language",
+    "japanese": "Japanese",
+    "english": "English"
+  },
   "distribution": {
     "title": "Probability Distribution",
     "select": "Select Distribution",

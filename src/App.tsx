@@ -5,6 +5,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { DistributionSelector } from './components/DistributionSelector';
 import { ConvolutionControls } from './components/ConvolutionControls';
+import { LanguageSelector } from './components/LanguageSelector';
 import { ProbabilityDistributionChart } from './components/ProbabilityDistributionChart';
 import { AmplitudeChart } from './components/AmplitudeChart';
 import {
@@ -23,17 +24,19 @@ const theme = createTheme({
 function App() {
   const { t } = useTranslation();
   const [distributionType, setDistributionType] =
-    useState<DistributionType>('coin');
-  const [convolutionCount, setConvolutionCount] = useState(1);
+    useState<DistributionType>('dice');
+  const [convolutionCount, setConvolutionCount] = useState(6);
 
   const distribution = DISTRIBUTIONS[distributionType];
-  const convolvedDistribution = useMemo(() => {
-    return convolveMultiple(distribution.probabilities, convolutionCount);
-  }, [distribution.probabilities, convolutionCount]);
 
-  const amplitudeData = useMemo(() => {
-    return computeZTransform(convolvedDistribution);
-  }, [convolvedDistribution]);
+  const amplitudeDataArray = useMemo(() => {
+    const result = [];
+    for (let i = 1; i <= convolutionCount; i++) {
+      const dist = convolveMultiple(distribution.probabilities, i);
+      result.push(computeZTransform(dist));
+    }
+    return result;
+  }, [distribution.probabilities, convolutionCount]);
 
   const distributionLabels = useMemo(() => {
     return Array.from({ length: convolutionCount }, (_, i) => {
@@ -53,56 +56,80 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Container maxWidth="xl" sx={{ py: 4 }}>
-        <Typography variant="h4" component="h1" gutterBottom align="center">
-          {t('app.title')}
-        </Typography>
+      <Container
+        maxWidth={false}
+        sx={{
+          py: 4,
+          maxWidth: 1920,
+          px: { xs: 2, sm: 3 },
+        }}
+      >
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            mb: 3,
+            flexDirection: { xs: 'column', sm: 'row' },
+            gap: 2,
+          }}
+        >
+          <Typography
+            variant="h4"
+            component="h1"
+            align="center"
+            sx={{ flex: 1 }}
+          >
+            {t('app.title')}
+          </Typography>
+          <Paper sx={{ p: 1, minWidth: { xs: '100%', sm: 200 } }}>
+            <LanguageSelector />
+          </Paper>
+        </Box>
 
         <Box
           sx={{
             display: 'flex',
-            flexDirection: { xs: 'column', md: 'row' },
+            flexDirection: { xs: 'column', lg: 'row' },
             gap: 3,
-            mt: 3,
           }}
         >
-          <Box
-            sx={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 2 }}
-          >
-            <Paper sx={{ p: 2 }}>
-              <DistributionSelector
-                value={distributionType}
-                onChange={setDistributionType}
-              />
-            </Paper>
-            <Paper sx={{ p: 2 }}>
-              <ConvolutionControls
-                value={convolutionCount}
-                onChange={setConvolutionCount}
-                min={1}
-                max={10}
-              />
-            </Paper>
-            <Paper sx={{ p: 2, flex: 1, minHeight: 500 }}>
-              <Box sx={{ height: '100%', minHeight: 450 }}>
-                <ProbabilityDistributionChart
-                  distributions={distributionsForChart}
-                  labels={distributionLabels}
-                />
-              </Box>
-            </Paper>
-          </Box>
+          <Paper sx={{ p: 2, flex: 1 }}>
+            <ProbabilityDistributionChart
+              distributions={distributionsForChart}
+              labels={distributionLabels}
+            />
+          </Paper>
+          <Paper sx={{ p: 2, flex: 1 }}>
+            <AmplitudeChart
+              amplitudeDataArray={amplitudeDataArray}
+              labels={distributionLabels}
+            />
+          </Paper>
+        </Box>
 
-          <Box sx={{ flex: 1 }}>
-            <Paper sx={{ p: 2, minHeight: 500 }}>
-              <Box sx={{ height: '100%', minHeight: 450 }}>
-                <AmplitudeChart
-                  amplitudeData={amplitudeData}
-                  label={`${t(`distribution.${distributionType}`)} (${convolutionCount}x)`}
-                />
-              </Box>
-            </Paper>
-          </Box>
+        <Box
+          sx={{
+            mt: 3,
+            display: 'flex',
+            flexDirection: { xs: 'column', sm: 'row' },
+            gap: 2,
+          }}
+        >
+          <Paper sx={{ p: 2, flex: 1 }}>
+            <DistributionSelector
+              value={distributionType}
+              onChange={setDistributionType}
+            />
+          </Paper>
+          <Paper sx={{ p: 2, flex: 1 }}>
+            <ConvolutionControls
+              value={convolutionCount}
+              onChange={setConvolutionCount}
+              min={1}
+              max={10}
+            />
+          </Paper>
         </Box>
       </Container>
     </ThemeProvider>

@@ -18,6 +18,11 @@ i18n
       },
     },
     fallbackLng: 'en',
+    supportedLngs: ['ja', 'en'],
+    detection: {
+      order: ['localStorage', 'navigator'],
+      caches: ['localStorage'],
+    },
     interpolation: {
       escapeValue: false,
     },

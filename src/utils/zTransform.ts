@@ -7,13 +7,13 @@ export interface AmplitudePoint {
  * 離散確率分布のz変換を計算し、振幅特性を返す
  * @param distribution 確率分布（配列のインデックスがn、値がp[n]）
  * @param numPoints 計算する点の数（デフォルト: 512）
- * @param maxAngularFrequency 最大角周波数（デフォルト: 2π）
+ * @param maxAngularFrequency 最大角周波数（デフォルト: π）
  * @returns 角周波数と振幅のペアの配列
  */
 export function computeZTransform(
   distribution: number[],
   numPoints: number = 512,
-  maxAngularFrequency: number = 2 * Math.PI
+  maxAngularFrequency: number = Math.PI
 ): AmplitudePoint[] {
   const result: AmplitudePoint[] = [];
 

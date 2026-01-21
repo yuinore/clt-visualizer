@@ -1,4 +1,6 @@
 import { useMemo } from 'react';
+import { CssVarsProvider } from '@mui/joy/styles';
+import AspectRatio from '@mui/joy/AspectRatio';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -8,6 +10,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  Filler,
   type ChartOptions,
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
@@ -22,35 +25,46 @@ ChartJS.register(
   LineElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  Filler
 );
 
 interface AmplitudeChartProps {
-  amplitudeData: AmplitudePoint[];
-  label: string;
+  amplitudeDataArray: AmplitudePoint[][];
+  labels: string[];
 }
 
-export function AmplitudeChart({ amplitudeData, label }: AmplitudeChartProps) {
+export function AmplitudeChart({
+  amplitudeDataArray,
+  labels,
+}: AmplitudeChartProps) {
   const { t } = useTranslation();
 
   const chartData: ChartData<'line'> = useMemo(() => {
+    const datasets = amplitudeDataArray.map((amplitudeData, index) => {
+      // 色は畳み込み回数に基づいて固定
+      const hue = [0, 25, 50, 70, 120, 180, 210, 250, 290, 330][index % 10];
+      const luminance = [70, 60, 50, 48, 60, 50, 60, 70, 70, 70][index % 10];
+
+      return {
+        label: labels[index] || `Amplitude ${index + 1}`,
+        data: amplitudeData.map((point) => ({
+          x: point.angularFrequency,
+          y: point.amplitude,
+        })),
+        borderColor: `hsl(${hue}, 80%, ${luminance}%)`,
+        backgroundColor: `hsla(${hue}, 80%, ${luminance}%, 0.08)`,
+        fill: index === amplitudeDataArray.length - 1 ? 'origin' : '+1',
+        tension: 0,
+        pointRadius: 0,
+        pointHoverRadius: 3,
+      };
+    });
+
     return {
-      datasets: [
-        {
-          label,
-          data: amplitudeData.map((point) => ({
-            x: point.angularFrequency,
-            y: point.amplitude,
-          })),
-          borderColor: 'rgb(75, 192, 192)',
-          backgroundColor: 'rgba(75, 192, 192, 0.1)',
-          tension: 0.1,
-          pointRadius: 0,
-          pointHoverRadius: 3,
-        },
-      ],
+      datasets,
     };
-  }, [amplitudeData, label]);
+  }, [amplitudeDataArray, labels]);
 
   const options: ChartOptions<'line'> = {
     responsive: true,
@@ -76,6 +90,8 @@ export function AmplitudeChart({ amplitudeData, label }: AmplitudeChartProps) {
         },
         type: 'linear',
         position: 'bottom',
+        min: 0,
+        max: Math.PI,
       },
       y: {
         title: {
@@ -87,5 +103,15 @@ export function AmplitudeChart({ amplitudeData, label }: AmplitudeChartProps) {
     },
   };
 
-  return <Line data={chartData} options={options} />;
+  return (
+    <CssVarsProvider>
+      <AspectRatio
+        variant="plain"
+        ratio="2 / 1"
+        sx={{ width: '100%', minWidth: 0 }}
+      >
+        <Line data={chartData} options={options} />
+      </AspectRatio>
+    </CssVarsProvider>
+  );
 }
