@@ -9,9 +9,11 @@ import { DistributionParamsControls } from './components/DistributionParamsContr
 import { LanguageSelector } from './components/LanguageSelector';
 import { ProbabilityDistributionChart } from './components/ProbabilityDistributionChart';
 import { AmplitudeChart } from './components/AmplitudeChart';
+import { CumulativeDistributionChart } from './components/CumulativeDistributionChart';
+import { CumulativeAmplitudeChart } from './components/CumulativeAmplitudeChart';
 import { DISTRIBUTIONS } from './distributions';
 import { convolveMultiple, type DistributionType } from './utils/probability';
-import { computeZTransform } from './utils/zTransform';
+import { computeZTransform, computeCDFAmplitudeFromDistribution } from './utils/zTransform';
 
 const theme = createTheme({
   palette: {
@@ -77,6 +79,13 @@ function App() {
     return result;
   }, [distributionProbabilities, convolutionCount]);
 
+  const cdfAmplitudeDataArray = useMemo(() => {
+    // 確率分布のz変換結果を再利用して、ステップ関数の振幅特性を掛ける
+    return amplitudeDataArray.map((amplitudeData) =>
+      computeCDFAmplitudeFromDistribution(amplitudeData)
+    );
+  }, [amplitudeDataArray]);
+
   const distributionLabels = useMemo(() => {
     return Array.from({ length: convolutionCount }, (_, i) => {
       const count = i + 1;
@@ -130,24 +139,54 @@ function App() {
         <Box
           sx={{
             display: 'flex',
-            flexDirection: { xs: 'column', lg: 'row' },
+            flexDirection: 'column',
             gap: 3,
           }}
         >
-          <Paper sx={{ p: 2, flex: 1 }}>
-            <ProbabilityDistributionChart
-              distributions={distributionsForChart}
-              labels={distributionLabels}
-              xAxisLabel={xAxisLabel}
-            />
-          </Paper>
-          <Paper sx={{ p: 2, flex: 1 }}>
-            <AmplitudeChart
-              amplitudeDataArray={amplitudeDataArray}
-              labels={distributionLabels}
-              isDb={isDb}
-            />
-          </Paper>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', lg: 'row' },
+              gap: 3,
+            }}
+          >
+            <Paper sx={{ p: 2, flex: 1 }}>
+              <ProbabilityDistributionChart
+                distributions={distributionsForChart}
+                labels={distributionLabels}
+                xAxisLabel={xAxisLabel}
+              />
+            </Paper>
+            <Paper sx={{ p: 2, flex: 1 }}>
+              <AmplitudeChart
+                amplitudeDataArray={amplitudeDataArray}
+                labels={distributionLabels}
+                isDb={isDb}
+              />
+            </Paper>
+          </Box>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', lg: 'row' },
+              gap: 3,
+            }}
+          >
+            <Paper sx={{ p: 2, flex: 1 }}>
+              <CumulativeDistributionChart
+                distributions={distributionsForChart}
+                labels={distributionLabels}
+                xAxisLabel={xAxisLabel}
+              />
+            </Paper>
+            <Paper sx={{ p: 2, flex: 1 }}>
+              <CumulativeAmplitudeChart
+                amplitudeDataArray={cdfAmplitudeDataArray}
+                labels={distributionLabels}
+                isDb={isDb}
+              />
+            </Paper>
+          </Box>
         </Box>
 
         <Box

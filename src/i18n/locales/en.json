@@ -61,5 +61,13 @@
     "yAxis": "Amplitude",
     "yAxisDb": "Amplitude (dB)",
     "dbSwitch": "dB view"
+  },
+  "cdf": {
+    "title": "Cumulative Distribution Function",
+    "yAxis": "Cumulative Probability"
+  },
+  "cdfAmplitude": {
+    "title": "CDF Amplitude Characteristics",
+    "stepFunction": "Step Function Amplitude Characteristics"
   }
 }

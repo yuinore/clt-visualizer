@@ -50,3 +50,20 @@ export function convolveMultiple(
 
   return result;
 }
+
+/**
+ * 確率分布から累積分布関数（CDF）を計算
+ * @param distribution 確率分布
+ * @returns 累積分布関数（各インデックスiは0からiまでの確率の合計）
+ */
+export function computeCDF(distribution: number[]): number[] {
+  const cdf: number[] = [];
+  let cumulative = 0;
+  
+  for (let i = 0; i < distribution.length; i++) {
+    cumulative += distribution[i];
+    cdf.push(cumulative);
+  }
+  
+  return cdf;
+}

@@ -18,6 +18,7 @@ import { Line } from 'react-chartjs-2';
 import { useTranslation } from 'react-i18next';
 import type { ChartData } from 'chart.js';
 import type { AmplitudePoint } from '../utils/zTransform';
+import { computeStepFunctionAmplitude } from '../utils/zTransform';
 import { getHue, getLuminance, toDb } from '../utils/chartUtils';
 
 ChartJS.register(
@@ -31,26 +32,27 @@ ChartJS.register(
   Filler
 );
 
-interface AmplitudeChartProps {
+interface CumulativeAmplitudeChartProps {
   amplitudeDataArray: AmplitudePoint[][];
   labels: string[];
   isDb?: boolean;
 }
 
-export function AmplitudeChart({
+export function CumulativeAmplitudeChart({
   amplitudeDataArray,
   labels,
   isDb = false,
-}: AmplitudeChartProps) {
+}: CumulativeAmplitudeChartProps) {
   const { t } = useTranslation();
 
   const chartData: ChartData<'line'> = useMemo(() => {
+    // 既存のCDF振幅特性のデータセット
     const datasets = amplitudeDataArray.map((amplitudeData, index) => {
       const hue = getHue(index);
       const luminance = getLuminance(index);
 
       return {
-        label: labels[index] || `Amplitude ${index + 1}`,
+        label: labels[index] || `CDF Amplitude ${index + 1}`,
         data: amplitudeData.map((point) => ({
           x: point.angularFrequency,
           y: isDb ? toDb(point.amplitude) : point.amplitude,
@@ -64,10 +66,33 @@ export function AmplitudeChart({
       };
     });
 
+    // ステップ関数の振幅特性を灰色の点線で追加
+    if (amplitudeDataArray.length > 0) {
+      const firstAmplitudeData = amplitudeDataArray[0];
+      const stepFunctionData = {
+        label: t('cdfAmplitude.stepFunction'),
+        data: firstAmplitudeData.map((point) => {
+          const stepAmplitude = computeStepFunctionAmplitude(point.angularFrequency);
+          return {
+            x: point.angularFrequency,
+            y: isDb ? toDb(stepAmplitude) : stepAmplitude,
+          };
+        }),
+        borderColor: 'gray',
+        backgroundColor: 'transparent',
+        borderDash: [5, 5],
+        fill: false,
+        tension: 0,
+        pointRadius: 0,
+        pointHoverRadius: 3,
+      };
+      datasets.push(stepFunctionData as any);
+    }
+
     return {
       datasets,
     };
-  }, [amplitudeDataArray, labels, isDb]);
+  }, [amplitudeDataArray, labels, isDb, t]);
 
   const options: ChartOptions<'line'> = {
     responsive: true,
@@ -78,7 +103,7 @@ export function AmplitudeChart({
       },
       title: {
         display: true,
-        text: t('amplitude.title'),
+        text: t('cdfAmplitude.title'),
       },
       tooltip: {
         mode: 'index',
@@ -102,7 +127,7 @@ export function AmplitudeChart({
           text: isDb ? t('amplitude.yAxisDb') : t('amplitude.yAxis'),
         },
         min: isDb ? -100 : undefined,
-        max: isDb ? 40 : undefined,
+        max: isDb ? 40 : 10,
         beginAtZero: !isDb,
       },
     },

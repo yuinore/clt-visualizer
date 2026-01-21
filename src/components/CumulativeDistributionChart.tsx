@@ -18,6 +18,7 @@ import { Line } from 'react-chartjs-2';
 import { useTranslation } from 'react-i18next';
 import type { ChartData } from 'chart.js';
 import { getHue, getLuminance } from '../utils/chartUtils';
+import { computeCDF } from '../utils/probability';
 
 ChartJS.register(
   CategoryScale,
@@ -30,23 +31,26 @@ ChartJS.register(
   Filler
 );
 
-interface ProbabilityDistributionChartProps {
+interface CumulativeDistributionChartProps {
   distributions: number[][];
   labels: string[];
   xAxisLabel?: string;
 }
 
-export function ProbabilityDistributionChart({
+export function CumulativeDistributionChart({
   distributions,
   labels,
   xAxisLabel,
-}: ProbabilityDistributionChartProps) {
+}: CumulativeDistributionChartProps) {
   const { t } = useTranslation();
 
   const chartData: ChartData<'line'> = useMemo(() => {
     const datasets = distributions.map((dist, index) => {
+      // CDFを計算
+      const cdf = computeCDF(dist);
+
       const xValues: number[] = [];
-      for (let i = 0; i < dist.length; i++) {
+      for (let i = 0; i < cdf.length; i++) {
         xValues.push(i);
       }
 
@@ -54,17 +58,17 @@ export function ProbabilityDistributionChart({
       const luminance = getLuminance(index);
 
       // 表示を最初の101サンプルに制限
-      const displayDist = dist.slice(0, 101);
+      const displayCdf = cdf.slice(0, 101);
 
       return {
-        label: labels[index] || `Distribution ${index + 1}`,
-        data: displayDist.map((prob, idx) => ({
+        label: labels[index] || `CDF ${index + 1}`,
+        data: displayCdf.map((prob, idx) => ({
           x: idx,
           y: prob,
         })),
         borderColor: `hsl(${hue}, 80%, ${luminance}%)`,
         backgroundColor: `hsla(${hue}, 80%, ${luminance}%, 0.08)`,
-        fill: true,
+        fill: false,
         tension: 0,
         pointRadius: 3,
         pointHoverRadius: 5,
@@ -85,7 +89,7 @@ export function ProbabilityDistributionChart({
       },
       title: {
         display: true,
-        text: t('distribution.title'),
+        text: t('cdf.title'),
       },
       tooltip: {
         mode: 'index',
@@ -104,9 +108,10 @@ export function ProbabilityDistributionChart({
       y: {
         title: {
           display: true,
-          text: t('distribution.yAxis'),
+          text: t('cdf.yAxis'),
         },
         beginAtZero: true,
+        // max: 1.0,
       },
     },
   };
