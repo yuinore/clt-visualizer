@@ -49,6 +49,7 @@ export const poisson: Distribution = {
   type: 'poisson',
   name: 'poisson',
   probabilities: poissonProbabilities,
+  xAxisLabelKey: 'distribution.xAxisOccurrenceCount',
   params: [
     {
       name: 'lambda',

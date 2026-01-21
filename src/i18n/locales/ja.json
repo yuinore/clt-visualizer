@@ -1,6 +1,6 @@
 {
   "app": {
-    "title": "離散型確率変数に対する中心極限定理の可視化"
+    "title": "インパルス応答に対する中心極限定理の可視化"
   },
   "language": {
     "select": "言語を選択",
@@ -14,24 +14,45 @@
     "coinDescription": "コインを {{n}} 回投げた場合の、表が出た回数の分布。",
     "dice": "サイコロ",
     "diceDescription": "六面サイコロを {{n}} 回投げた場合の、出た目の合計の分布。",
-    "fir": "FIR ローパスフィルター",
-    "firDescription": "FIR ローパスフィルターのインパルス応答。非負ではないため、確率分布であるための条件を満たさない。",
-    "iir": "IIR ローパスフィルター",
-    "iirDescription": "IIR ローパスフィルターのインパルス応答。非負ではないため、確率分布であるための条件を満たさない。",
-    "differential": "離散時間微分",
-    "differentialDescription": "離散時間における微分であり、一次の IIR ハイパスフィルタのインパルス応答。非負ではないため、確率分布であるための条件を満たさない。",
+    "diceLoaded": "いびつなサイコロ",
+    "diceLoadedDescription": "いびつなサイコロを {{n}} 回投げた場合の、出た目の合計の分布。",
+    "degenerate": "退化分布",
+    "degenerateDescription": "確率質量が一点に集中する分布。",
+    "fir": "FIR ローパスフィルタ",
+    "firDescription": "FIR ローパスフィルタのインパルス応答。非負ではないため、確率分布であるための条件を満たさない。",
+    "customFir": "カスタム FIR",
+    "customFirDescription": "8個のサンプル値を-1から1の範囲で指定できるカスタムFIRフィルタのインパルス応答。絶対値の総和で正規化される。非負ではないため、確率分布であるための条件を満たさない。",
+    "iir": "IIR ローパスフィルタ",
+    "iirDescription": "IIR ローパスフィルタのインパルス応答。非負ではないため、確率分布であるための条件を満たさない。",
+    "differential": "差分フィルタ",
+    "differentialDescription": "連続時間における微分に相当し、一次の IIR ハイパスフィルタのインパルス応答。非負ではないため、確率分布であるための条件を満たさない。",
+    "differentialCentral": "中心差分フィルタ",
+    "differentialCentralDescription": "差分法における中心差分であり、2次差分に相当するインパルス応答。非負ではないため、確率分布であるための条件を満たさない。",
     "uniform": "一様分布",
     "bernoulli": "ベルヌーイ分布",
     "poisson": "ポアソン分布",
     "binomial": "二項分布",
-    "convolutionCount": "畳み込み回数",
+    "convolutionCount": "試行回数",
     "xAxis": "出目の合計",
+    "xAxisSum": "出目の合計",
+    "xAxisSuccessCount": "成功回数",
+    "xAxisOccurrenceCount": "発生回数",
+    "xAxisValue": "値",
+    "xAxisTime": "時間 (サンプル)",
     "yAxis": "確率",
     "params": {
       "length": "長さ",
       "p": "成功確率",
       "lambda": "λ (ラムダ)",
-      "n": "試行回数"
+      "n": "試行回数",
+      "sample0": "サンプル 0",
+      "sample1": "サンプル 1",
+      "sample2": "サンプル 2",
+      "sample3": "サンプル 3",
+      "sample4": "サンプル 4",
+      "sample5": "サンプル 5",
+      "sample6": "サンプル 6",
+      "sample7": "サンプル 7"
     }
   },
   "amplitude": {

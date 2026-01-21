@@ -4,4 +4,5 @@ export const coin: Distribution = {
   type: 'coin',
   name: 'coin',
   probabilities: [0.5, 0.5],
+  xAxisLabelKey: 'distribution.xAxisSuccessCount',
 };

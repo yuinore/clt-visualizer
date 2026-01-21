@@ -1,6 +1,6 @@
 {
   "app": {
-    "title": "Visualization of Central Limit Theorem for Discrete Random Variables"
+    "title": "Visualization of Central Limit Theorem for Impulse Responses"
   },
   "language": {
     "select": "Select Language",
@@ -14,24 +14,45 @@
     "coinDescription": "Distribution of the number of heads when a coin is flipped {{n}} times.",
     "dice": "Dice",
     "diceDescription": "Distribution of the sum of outcomes when a six-sided die is rolled {{n}} times.",
+    "diceLoaded": "Loaded Dice",
+    "diceLoadedDescription": "Distribution of the sum of outcomes when a loaded die is rolled {{n}} times.",
+    "degenerate": "Degenerate Distribution",
+    "degenerateDescription": "All probability mass concentrated at a single point.",
     "fir": "FIR Low-pass Filter",
     "firDescription": "Impulse response of FIR low-pass filter. It does not satisfy the conditions for a probability distribution because it is not non-negative.",
+    "customFir": "Custom FIR",
+    "customFirDescription": "Custom FIR filter impulse response with 8 samples adjustable from -1 to 1. Normalized by the sum of absolute values. It does not satisfy the conditions for a probability distribution because it is not non-negative.",
     "iir": "IIR Low-pass Filter",
     "iirDescription": "Impulse response of IIR low-pass filter. It does not satisfy the conditions for a probability distribution because it is not non-negative.",
-    "differential": "Differential",
-    "differentialDescription": "Differential in discrete time, which is the impulse response of a first-order IIR high-pass filter. It does not satisfy the conditions for a probability distribution because it is not non-negative.",
+    "differential": "Difference Filter",
+    "differentialDescription": "Discrete-time difference, impulse response of a first-order IIR high-pass filter. It does not satisfy the conditions for a probability distribution because it is not non-negative.",
+    "differentialCentral": "Central Difference Filter",
+    "differentialCentralDescription": "Discrete-time central difference, equivalent to a second-order difference impulse response. It does not satisfy the conditions for a probability distribution because it is not non-negative.",
     "uniform": "Uniform Distribution",
     "bernoulli": "Bernoulli Distribution",
     "poisson": "Poisson Distribution",
     "binomial": "Binomial Distribution",
-    "convolutionCount": "Convolution Count",
+    "convolutionCount": "Number of Trials",
     "xAxis": "Sum of Outcomes",
+    "xAxisSum": "Sum of Outcomes",
+    "xAxisSuccessCount": "Number of Successes",
+    "xAxisOccurrenceCount": "Number of Occurrences",
+    "xAxisValue": "Value",
+    "xAxisTime": "Time (samples)",
     "yAxis": "Probability",
     "params": {
       "length": "Length",
       "p": "Success Probability",
       "lambda": "Lambda (λ)",
-      "n": "Number of Trials"
+      "n": "Number of Trials",
+      "sample0": "Sample 0",
+      "sample1": "Sample 1",
+      "sample2": "Sample 2",
+      "sample3": "Sample 3",
+      "sample4": "Sample 4",
+      "sample5": "Sample 5",
+      "sample6": "Sample 6",
+      "sample7": "Sample 7"
     }
   },
   "amplitude": {

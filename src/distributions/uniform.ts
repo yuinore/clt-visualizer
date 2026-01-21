@@ -15,6 +15,7 @@ export const uniform: Distribution = {
   type: 'uniform',
   name: 'uniform',
   probabilities: uniformProbabilities,
+  xAxisLabelKey: 'distribution.xAxisValue',
   params: [
     {
       name: 'length',

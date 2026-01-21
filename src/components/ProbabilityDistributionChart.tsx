@@ -32,11 +32,13 @@ ChartJS.register(
 interface ProbabilityDistributionChartProps {
   distributions: number[][];
   labels: string[];
+  xAxisLabel?: string;
 }
 
 export function ProbabilityDistributionChart({
   distributions,
   labels,
+  xAxisLabel,
 }: ProbabilityDistributionChartProps) {
   const { t } = useTranslation();
 
@@ -47,7 +49,7 @@ export function ProbabilityDistributionChart({
         xValues.push(i);
       }
 
-      // 色は畳み込み回数に基づいて固定
+      // 色は試行回数に基づいて固定
       const hue = [0, 25, 50, 70, 120, 180, 210, 250, 290, 330][index % 10];
       const luminance = [70, 60, 50, 48, 60, 50, 60, 70, 70, 70][index % 10];
 
@@ -94,7 +96,7 @@ export function ProbabilityDistributionChart({
       x: {
         title: {
           display: true,
-          text: t('distribution.xAxis'),
+          text: xAxisLabel ?? t('distribution.xAxis'),
         },
         type: 'linear',
         position: 'bottom',

@@ -45,7 +45,7 @@ export function AmplitudeChart({
 
   const chartData: ChartData<'line'> = useMemo(() => {
     const datasets = amplitudeDataArray.map((amplitudeData, index) => {
-      // 色は畳み込み回数に基づいて固定
+      // 色は試行回数に基づいて固定
       const hue = [0, 25, 50, 70, 120, 180, 210, 250, 290, 330][index % 10];
       const luminance = [70, 60, 50, 48, 60, 50, 60, 70, 70, 70][index % 10];
       const toDb = (amp: number) => 20 * Math.log10(Math.max(amp, 1e-12));

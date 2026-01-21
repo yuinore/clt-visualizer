@@ -18,6 +18,7 @@ export const bernoulli: Distribution = {
   type: 'bernoulli',
   name: 'bernoulli',
   probabilities: bernoulliProbabilities,
+  xAxisLabelKey: 'distribution.xAxisSuccessCount',
   params: [
     {
       name: 'p',

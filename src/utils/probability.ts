@@ -29,7 +29,7 @@ export function convolve(dist1: number[], dist2: number[]): number[] {
 /**
  * 同じ確率分布を複数回畳み込む
  * @param distribution 元の確率分布
- * @param count 畳み込み回数
+ * @param count 試行回数
  * @returns 畳み込み結果の確率分布
  */
 export function convolveMultiple(

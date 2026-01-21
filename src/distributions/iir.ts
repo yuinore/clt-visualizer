@@ -27,4 +27,5 @@ export const iir: Distribution = {
     -1.571082541246045e-7, 2.7059071807398e-7, 4.0685411281211217e-7,
     2.982649962510359e-7, 8.970827978643424e-8, -8.181307079127038e-8,
   ],
+  xAxisLabelKey: 'distribution.xAxisTime',
 };

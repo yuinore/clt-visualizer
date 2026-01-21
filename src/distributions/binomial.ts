@@ -52,6 +52,7 @@ export const binomial: Distribution = {
   type: 'binomial',
   name: 'binomial',
   probabilities: binomialProbabilities,
+  xAxisLabelKey: 'distribution.xAxisSuccessCount',
   params: [
     {
       name: 'n',

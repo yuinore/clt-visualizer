@@ -16,4 +16,5 @@ export const fir: Distribution = {
     -3.170441286616877e-17, -0.0014566656956923158, -0.0008639993866459444,
     -0.00014393546569563856,
   ],
+  xAxisLabelKey: 'distribution.xAxisTime',
 };

@@ -29,6 +29,13 @@ function App() {
 
   const distribution = DISTRIBUTIONS[distributionType];
   const prevDistributionTypeRef = useRef<DistributionType>(distributionType);
+  const xAxisLabel = useMemo(
+    () =>
+      distribution.xAxisLabelKey
+        ? t(distribution.xAxisLabelKey)
+        : t('distribution.xAxis'),
+    [distribution.xAxisLabelKey, t]
+  );
 
   // 分布が変更されたときにパラメータをリセット
   useEffect(() => {
@@ -131,6 +138,7 @@ function App() {
             <ProbabilityDistributionChart
               distributions={distributionsForChart}
               labels={distributionLabels}
+              xAxisLabel={xAxisLabel}
             />
           </Paper>
           <Paper sx={{ p: 2, flex: 1 }}>
