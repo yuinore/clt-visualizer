@@ -1,0 +1,19 @@
+{
+  "app": {
+    "title": "中心極限定理可視化"
+  },
+  "distribution": {
+    "title": "確率分布",
+    "select": "分布を選択",
+    "coin": "コイン",
+    "dice": "サイコロ",
+    "convolutionCount": "畳み込み回数",
+    "xAxis": "出目の合計",
+    "yAxis": "確率"
+  },
+  "amplitude": {
+    "title": "振幅特性",
+    "xAxis": "角周波数",
+    "yAxis": "振幅"
+  }
+}

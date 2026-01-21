@@ -1,0 +1,19 @@
+{
+  "app": {
+    "title": "Central Limit Theorem Visualizer"
+  },
+  "distribution": {
+    "title": "Probability Distribution",
+    "select": "Select Distribution",
+    "coin": "Coin",
+    "dice": "Dice",
+    "convolutionCount": "Convolution Count",
+    "xAxis": "Sum of Outcomes",
+    "yAxis": "Probability"
+  },
+  "amplitude": {
+    "title": "Amplitude Characteristics",
+    "xAxis": "Angular Frequency",
+    "yAxis": "Amplitude"
+  }
+}
