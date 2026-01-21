@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { CssVarsProvider } from '@mui/joy/styles';
 import AspectRatio from '@mui/joy/AspectRatio';
+import Box from '@mui/joy/Box';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -112,10 +113,18 @@ export function AmplitudeChart({
     <CssVarsProvider>
       <AspectRatio
         variant="plain"
-        ratio="2 / 1"
+        ratio="8 / 4"
         sx={{ width: '100%', minWidth: 0 }}
       >
-        <Line data={chartData} options={options} />
+        <Box
+          sx={{
+            width: '100%',
+            height: '100%',
+            position: 'relative',
+          }}
+        >
+          <Line data={chartData} options={options} />
+        </Box>
       </AspectRatio>
     </CssVarsProvider>
   );

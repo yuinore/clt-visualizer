@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Container, Box, Paper, Typography, Switch } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
@@ -28,15 +28,18 @@ function App() {
   const [distributionParams, setDistributionParams] = useState<number[]>([]);
 
   const distribution = DISTRIBUTIONS[distributionType];
+  const prevDistributionTypeRef = useRef<DistributionType>(distributionType);
 
   // 分布が変更されたときにパラメータをリセット
   useEffect(() => {
-    if (distribution.params) {
-      if (distributionParams.length !== distribution.params.length) {
+    // 分布が変更された場合は常にパラメータをリセット
+    if (prevDistributionTypeRef.current !== distributionType) {
+      prevDistributionTypeRef.current = distributionType;
+      if (distribution.params) {
         setDistributionParams(distribution.params.map((p) => p.defaultValue));
+      } else {
+        setDistributionParams([]);
       }
-    } else {
-      setDistributionParams([]);
     }
   }, [distributionType, distribution.params]);
 
@@ -70,7 +73,7 @@ function App() {
   const distributionLabels = useMemo(() => {
     return Array.from({ length: convolutionCount }, (_, i) => {
       const count = i + 1;
-      return `${t(`distribution.${distributionType}`)} (${count}x)`;
+      return `${count}x`;
     });
   }, [convolutionCount, distributionType, t]);
 
@@ -85,6 +88,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <title>{t('app.title')}</title>
       <Container
         maxWidth={false}
         sx={{
@@ -150,6 +154,7 @@ function App() {
             <DistributionSelector
               value={distributionType}
               onChange={setDistributionType}
+              convolutionCount={convolutionCount}
             />
           </Paper>
           <Paper sx={{ p: 2, flex: 1 }}>

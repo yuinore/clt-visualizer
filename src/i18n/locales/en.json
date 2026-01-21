@@ -1,6 +1,6 @@
 {
   "app": {
-    "title": "Central Limit Theorem Visualizer"
+    "title": "Visualization of Central Limit Theorem for Discrete Random Variables"
   },
   "language": {
     "select": "Select Language",
@@ -11,15 +11,27 @@
     "title": "Probability Distribution",
     "select": "Select Distribution",
     "coin": "Coin",
+    "coinDescription": "Distribution of the number of heads when a coin is flipped {{n}} times.",
     "dice": "Dice",
+    "diceDescription": "Distribution of the sum of outcomes when a six-sided die is rolled {{n}} times.",
     "fir": "FIR Low-pass Filter",
+    "firDescription": "Impulse response of FIR low-pass filter. It does not satisfy the conditions for a probability distribution because it is not non-negative.",
     "iir": "IIR Low-pass Filter",
+    "iirDescription": "Impulse response of IIR low-pass filter. It does not satisfy the conditions for a probability distribution because it is not non-negative.",
+    "differential": "Differential",
+    "differentialDescription": "Differential in discrete time, which is the impulse response of a first-order IIR high-pass filter. It does not satisfy the conditions for a probability distribution because it is not non-negative.",
     "uniform": "Uniform Distribution",
+    "bernoulli": "Bernoulli Distribution",
+    "poisson": "Poisson Distribution",
+    "binomial": "Binomial Distribution",
     "convolutionCount": "Convolution Count",
     "xAxis": "Sum of Outcomes",
     "yAxis": "Probability",
     "params": {
-      "length": "Length"
+      "length": "Length",
+      "p": "Success Probability",
+      "lambda": "Lambda (λ)",
+      "n": "Number of Trials"
     }
   },
   "amplitude": {

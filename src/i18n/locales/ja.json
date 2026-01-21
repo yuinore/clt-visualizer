@@ -1,6 +1,6 @@
 {
   "app": {
-    "title": "中心極限定理可視化"
+    "title": "離散型確率変数に対する中心極限定理の可視化"
   },
   "language": {
     "select": "言語を選択",
@@ -11,15 +11,27 @@
     "title": "確率分布",
     "select": "分布を選択",
     "coin": "コイン",
+    "coinDescription": "コインを {{n}} 回投げた場合の、表が出た回数の分布。",
     "dice": "サイコロ",
+    "diceDescription": "六面サイコロを {{n}} 回投げた場合の、出た目の合計の分布。",
     "fir": "FIR ローパスフィルター",
+    "firDescription": "FIR ローパスフィルターのインパルス応答。非負ではないため、確率分布であるための条件を満たさない。",
     "iir": "IIR ローパスフィルター",
+    "iirDescription": "IIR ローパスフィルターのインパルス応答。非負ではないため、確率分布であるための条件を満たさない。",
+    "differential": "離散時間微分",
+    "differentialDescription": "離散時間における微分であり、一次の IIR ハイパスフィルタのインパルス応答。非負ではないため、確率分布であるための条件を満たさない。",
     "uniform": "一様分布",
+    "bernoulli": "ベルヌーイ分布",
+    "poisson": "ポアソン分布",
+    "binomial": "二項分布",
     "convolutionCount": "畳み込み回数",
     "xAxis": "出目の合計",
     "yAxis": "確率",
     "params": {
-      "length": "長さ"
+      "length": "長さ",
+      "p": "成功確率",
+      "lambda": "λ (ラムダ)",
+      "n": "試行回数"
     }
   },
   "amplitude": {
