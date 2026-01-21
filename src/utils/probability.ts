@@ -1,23 +1,6 @@
-export type DistributionType = 'coin' | 'dice';
+import { DISTRIBUTIONS } from '../distributions';
 
-export interface Distribution {
-  type: DistributionType;
-  name: string;
-  probabilities: number[];
-}
-
-export const DISTRIBUTIONS: Record<DistributionType, Distribution> = {
-  coin: {
-    type: 'coin',
-    name: 'coin',
-    probabilities: [0.5, 0.5],
-  },
-  dice: {
-    type: 'dice',
-    name: 'dice',
-    probabilities: [0, 1 / 6, 1 / 6, 1 / 6, 1 / 6, 1 / 6, 1 / 6],
-  },
-};
+export type DistributionType = keyof typeof DISTRIBUTIONS;
 
 /**
  * 2つの確率分布を畳み込む

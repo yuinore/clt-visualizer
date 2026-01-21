@@ -1,18 +1,16 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Container, Box, Paper, Typography, Switch } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { DistributionSelector } from './components/DistributionSelector';
 import { ConvolutionControls } from './components/ConvolutionControls';
+import { DistributionParamsControls } from './components/DistributionParamsControls';
 import { LanguageSelector } from './components/LanguageSelector';
 import { ProbabilityDistributionChart } from './components/ProbabilityDistributionChart';
 import { AmplitudeChart } from './components/AmplitudeChart';
-import {
-  DISTRIBUTIONS,
-  convolveMultiple,
-  type DistributionType,
-} from './utils/probability';
+import { DISTRIBUTIONS } from './distributions';
+import { convolveMultiple, type DistributionType } from './utils/probability';
 import { computeZTransform } from './utils/zTransform';
 
 const theme = createTheme({
@@ -27,17 +25,47 @@ function App() {
     useState<DistributionType>('dice');
   const [convolutionCount, setConvolutionCount] = useState(6);
   const [isDb, setIsDb] = useState(false);
+  const [distributionParams, setDistributionParams] = useState<number[]>([]);
 
   const distribution = DISTRIBUTIONS[distributionType];
+
+  // 分布が変更されたときにパラメータをリセット
+  useEffect(() => {
+    if (distribution.params) {
+      if (distributionParams.length !== distribution.params.length) {
+        setDistributionParams(distribution.params.map((p) => p.defaultValue));
+      }
+    } else {
+      setDistributionParams([]);
+    }
+  }, [distributionType, distribution.params]);
+
+  const currentParams = useMemo(() => {
+    if (distribution.params) {
+      if (distributionParams.length === distribution.params.length) {
+        return distributionParams;
+      }
+      return distribution.params.map((p) => p.defaultValue);
+    }
+    return [];
+  }, [distribution.params, distributionParams]);
+
+  // probabilitiesが関数の場合は呼び出す
+  const distributionProbabilities = useMemo(() => {
+    if (typeof distribution.probabilities === 'function') {
+      return distribution.probabilities(currentParams);
+    }
+    return distribution.probabilities;
+  }, [distribution, currentParams]);
 
   const amplitudeDataArray = useMemo(() => {
     const result = [];
     for (let i = 1; i <= convolutionCount; i++) {
-      const dist = convolveMultiple(distribution.probabilities, i);
+      const dist = convolveMultiple(distributionProbabilities, i);
       result.push(computeZTransform(dist));
     }
     return result;
-  }, [distribution.probabilities, convolutionCount]);
+  }, [distributionProbabilities, convolutionCount]);
 
   const distributionLabels = useMemo(() => {
     return Array.from({ length: convolutionCount }, (_, i) => {
@@ -49,10 +77,10 @@ function App() {
   const distributionsForChart = useMemo(() => {
     const result: number[][] = [];
     for (let i = 1; i <= convolutionCount; i++) {
-      result.push(convolveMultiple(distribution.probabilities, i));
+      result.push(convolveMultiple(distributionProbabilities, i));
     }
     return result;
-  }, [distribution.probabilities, convolutionCount]);
+  }, [distributionProbabilities, convolutionCount]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -132,6 +160,15 @@ function App() {
               max={10}
             />
           </Paper>
+          {distribution.params && distribution.params.length > 0 && (
+            <Paper sx={{ p: 2, flex: 1 }}>
+              <DistributionParamsControls
+                params={distribution.params}
+                values={currentParams}
+                onChange={setDistributionParams}
+              />
+            </Paper>
+          )}
           <Paper
             sx={{
               p: 2,

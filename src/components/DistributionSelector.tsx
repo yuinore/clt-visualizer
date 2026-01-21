@@ -27,6 +27,9 @@ export function DistributionSelector({
       >
         <MenuItem value="coin">{t('distribution.coin')}</MenuItem>
         <MenuItem value="dice">{t('distribution.dice')}</MenuItem>
+        <MenuItem value="fir">{t('distribution.fir')}</MenuItem>
+        <MenuItem value="iir">{t('distribution.iir')}</MenuItem>
+        <MenuItem value="uniform">{t('distribution.uniform')}</MenuItem>
       </Select>
     </FormControl>
   );

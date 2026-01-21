@@ -102,7 +102,7 @@ export function AmplitudeChart({
           text: isDb ? t('amplitude.yAxisDb') : t('amplitude.yAxis'),
         },
         min: isDb ? -100 : undefined,
-        max: isDb ? 10 : undefined,
+        max: isDb ? 40 : undefined,
         beginAtZero: !isDb,
       },
     },

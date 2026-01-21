@@ -50,9 +50,12 @@ export function ProbabilityDistributionChart({
       const hue = [0, 25, 50, 70, 120, 180, 210, 250, 290, 330][index % 10];
       const luminance = [70, 60, 50, 48, 60, 50, 60, 70, 70, 70][index % 10];
 
+      // 表示を最初の101サンプルに制限
+      const displayDist = dist.slice(0, 101);
+
       return {
         label: labels[index] || `Distribution ${index + 1}`,
-        data: dist.map((prob, idx) => ({
+        data: displayDist.map((prob, idx) => ({
           x: idx,
           y: prob,
         })),

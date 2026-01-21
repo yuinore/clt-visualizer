@@ -12,9 +12,15 @@
     "select": "Select Distribution",
     "coin": "Coin",
     "dice": "Dice",
+    "fir": "FIR Low-pass Filter",
+    "iir": "IIR Low-pass Filter",
+    "uniform": "Uniform Distribution",
     "convolutionCount": "Convolution Count",
     "xAxis": "Sum of Outcomes",
-    "yAxis": "Probability"
+    "yAxis": "Probability",
+    "params": {
+      "length": "Length"
+    }
   },
   "amplitude": {
     "title": "Amplitude Characteristics",

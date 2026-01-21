@@ -12,9 +12,15 @@
     "select": "分布を選択",
     "coin": "コイン",
     "dice": "サイコロ",
+    "fir": "FIR ローパスフィルター",
+    "iir": "IIR ローパスフィルター",
+    "uniform": "一様分布",
     "convolutionCount": "畳み込み回数",
     "xAxis": "出目の合計",
-    "yAxis": "確率"
+    "yAxis": "確率",
+    "params": {
+      "length": "長さ"
+    }
   },
   "amplitude": {
     "title": "振幅特性",
