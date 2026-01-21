@@ -1,7 +1,4 @@
 import { useMemo } from 'react';
-import { CssVarsProvider } from '@mui/joy/styles';
-import AspectRatio from '@mui/joy/AspectRatio';
-import Box from '@mui/joy/Box';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -19,6 +16,8 @@ import { useTranslation } from 'react-i18next';
 import type { ChartData } from 'chart.js';
 import { getHue, getLuminance } from '../utils/chartUtils';
 import { computeCDF } from '../utils/probability';
+import { useChartDownload } from '../hooks/useChartDownload';
+import { ChartWithDownloadButton } from './ChartWithDownloadButton';
 
 ChartJS.register(
   CategoryScale,
@@ -43,6 +42,9 @@ export function CumulativeDistributionChart({
   xAxisLabel,
 }: CumulativeDistributionChartProps) {
   const { t } = useTranslation();
+  const { chartRef, handleDownload } = useChartDownload(
+    'cumulative-distribution-chart.png'
+  );
 
   const chartData: ChartData<'line'> = useMemo(() => {
     const datasets = distributions.map((dist, index) => {
@@ -117,22 +119,8 @@ export function CumulativeDistributionChart({
   };
 
   return (
-    <CssVarsProvider>
-      <AspectRatio
-        variant="plain"
-        ratio="8 / 4"
-        sx={{ width: '100%', minWidth: 0 }}
-      >
-        <Box
-          sx={{
-            width: '100%',
-            height: '100%',
-            position: 'relative',
-          }}
-        >
-          <Line data={chartData} options={options} />
-        </Box>
-      </AspectRatio>
-    </CssVarsProvider>
+    <ChartWithDownloadButton onDownload={handleDownload}>
+      <Line ref={chartRef} data={chartData} options={options} />
+    </ChartWithDownloadButton>
   );
 }

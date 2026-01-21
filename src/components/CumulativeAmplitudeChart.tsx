@@ -1,7 +1,4 @@
 import { useMemo } from 'react';
-import { CssVarsProvider } from '@mui/joy/styles';
-import AspectRatio from '@mui/joy/AspectRatio';
-import Box from '@mui/joy/Box';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -20,6 +17,8 @@ import type { ChartData } from 'chart.js';
 import type { AmplitudePoint } from '../utils/zTransform';
 import { computeStepFunctionAmplitude } from '../utils/zTransform';
 import { getHue, getLuminance, toDb } from '../utils/chartUtils';
+import { useChartDownload } from '../hooks/useChartDownload';
+import { ChartWithDownloadButton } from './ChartWithDownloadButton';
 
 ChartJS.register(
   CategoryScale,
@@ -44,6 +43,9 @@ export function CumulativeAmplitudeChart({
   isDb = false,
 }: CumulativeAmplitudeChartProps) {
   const { t } = useTranslation();
+  const { chartRef, handleDownload } = useChartDownload(
+    'cumulative-amplitude-chart.png'
+  );
 
   const chartData: ChartData<'line'> = useMemo(() => {
     // 既存のCDF振幅特性のデータセット
@@ -134,22 +136,8 @@ export function CumulativeAmplitudeChart({
   };
 
   return (
-    <CssVarsProvider>
-      <AspectRatio
-        variant="plain"
-        ratio="8 / 4"
-        sx={{ width: '100%', minWidth: 0 }}
-      >
-        <Box
-          sx={{
-            width: '100%',
-            height: '100%',
-            position: 'relative',
-          }}
-        >
-          <Line data={chartData} options={options} />
-        </Box>
-      </AspectRatio>
-    </CssVarsProvider>
+    <ChartWithDownloadButton onDownload={handleDownload}>
+      <Line ref={chartRef} data={chartData} options={options} />
+    </ChartWithDownloadButton>
   );
 }

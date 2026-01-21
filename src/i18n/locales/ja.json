@@ -32,7 +32,7 @@
     "bernoulli": "ベルヌーイ分布",
     "poisson": "ポアソン分布",
     "binomial": "二項分布",
-    "convolutionCount": "試行回数",
+    "convolutionCount": "最大試行回数",
     "xAxis": "出目の合計",
     "xAxisSum": "出目の合計",
     "xAxisSuccessCount": "成功回数",
@@ -69,5 +69,8 @@
   "cdfAmplitude": {
     "title": "累積分布関数の振幅特性",
     "stepFunction": "ステップ関数の振幅特性"
+  },
+  "chart": {
+    "download": "PNGとしてダウンロード"
   }
 }

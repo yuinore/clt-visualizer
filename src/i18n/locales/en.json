@@ -32,7 +32,7 @@
     "bernoulli": "Bernoulli Distribution",
     "poisson": "Poisson Distribution",
     "binomial": "Binomial Distribution",
-    "convolutionCount": "Number of Trials",
+    "convolutionCount": "Maximum Number of Trials",
     "xAxis": "Sum of Outcomes",
     "xAxisSum": "Sum of Outcomes",
     "xAxisSuccessCount": "Number of Successes",
@@ -69,5 +69,8 @@
   "cdfAmplitude": {
     "title": "CDF Amplitude Characteristics",
     "stepFunction": "Step Function Amplitude Characteristics"
+  },
+  "chart": {
+    "download": "Download as PNG"
   }
 }

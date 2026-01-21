@@ -1,6 +1,5 @@
 import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import i18n from '../i18n/config';
 
 export function LanguageSelector() {
   const { t, i18n: i18nInstance } = useTranslation();
