@@ -6,13 +6,13 @@ import type { Distribution } from './base';
 function combination(n: number, k: number): number {
   if (k < 0 || k > n) return 0;
   if (k === 0 || k === n) return 1;
-  
+
   // 計算効率のため、C(n,k) = C(n, n-k) を利用
   k = Math.min(k, n - k);
-  
+
   let result = 1;
   for (let i = 0; i < k; i++) {
-    result = result * (n - i) / (i + 1);
+    result = (result * (n - i)) / (i + 1);
   }
   return result;
 }
@@ -27,15 +27,19 @@ function binomialProbabilities(params: number[]): number[] {
   }
   const n = Math.floor(params[0]);
   const p = params[1];
-  
+
   if (n < 1) {
     return [1];
   }
   if (p < 0) {
-    return Array(n + 1).fill(0).map((_, k) => k === 0 ? 1 : 0);
+    return Array(n + 1)
+      .fill(0)
+      .map((_, k) => (k === 0 ? 1 : 0));
   }
   if (p > 1) {
-    return Array(n + 1).fill(0).map((_, k) => k === n ? 1 : 0);
+    return Array(n + 1)
+      .fill(0)
+      .map((_, k) => (k === n ? 1 : 0));
   }
 
   const probabilities: number[] = [];

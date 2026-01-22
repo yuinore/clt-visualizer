@@ -59,12 +59,12 @@ export function computeStepFunctionAmplitude(omega: number): number {
     // 実際には、CDFのz変換自体がω=0で有限値を持つため、適切な値を使用
     return 1.0;
   }
-  
+
   const denominator = 2 - 2 * Math.cos(omega);
   if (denominator < 1e-10) {
     return 1.0;
   }
-  
+
   return 1.0 / Math.sqrt(denominator);
 }
 

@@ -74,7 +74,9 @@ export function CumulativeAmplitudeChart({
       const stepFunctionData = {
         label: t('cdfAmplitude.stepFunction'),
         data: firstAmplitudeData.map((point) => {
-          const stepAmplitude = computeStepFunctionAmplitude(point.angularFrequency);
+          const stepAmplitude = computeStepFunctionAmplitude(
+            point.angularFrequency
+          );
           return {
             x: point.angularFrequency,
             y: isDb ? toDb(stepAmplitude) : stepAmplitude,

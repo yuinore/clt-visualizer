@@ -13,7 +13,10 @@ import { CumulativeDistributionChart } from './components/CumulativeDistribution
 import { CumulativeAmplitudeChart } from './components/CumulativeAmplitudeChart';
 import { DISTRIBUTIONS } from './distributions';
 import { convolveMultiple, type DistributionType } from './utils/probability';
-import { computeZTransform, computeCDFAmplitudeFromDistribution } from './utils/zTransform';
+import {
+  computeZTransform,
+  computeCDFAmplitudeFromDistribution,
+} from './utils/zTransform';
 
 const theme = createTheme({
   palette: {
@@ -201,7 +204,6 @@ function App() {
             <DistributionSelector
               value={distributionType}
               onChange={setDistributionType}
-              convolutionCount={convolutionCount}
             />
           </Paper>
           <Paper sx={{ p: 2, flex: 1 }}>

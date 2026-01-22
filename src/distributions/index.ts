@@ -11,6 +11,7 @@ import { binomial } from './binomial';
 import { differential } from './differential';
 import { differentialCentral } from './differentialCentral';
 import { degenerate } from './degenerate';
+import { lattice } from './lattice';
 import { customFir } from './customFir';
 
 export const DISTRIBUTIONS: DistributionMap = {
@@ -26,6 +27,7 @@ export const DISTRIBUTIONS: DistributionMap = {
   [differential.type]: differential,
   [differentialCentral.type]: differentialCentral,
   [degenerate.type]: degenerate,
+  [lattice.type]: lattice,
   [customFir.type]: customFir,
 };
 
@@ -42,6 +44,7 @@ export {
   differential,
   differentialCentral,
   degenerate,
+  lattice,
   customFir,
 };
 export type { Distribution } from './base';

@@ -34,7 +34,7 @@ export const customFir: Distribution = {
       min: -1,
       max: 1,
       step: 0.05,
-      defaultValue: 1.00,
+      defaultValue: 1.0,
     },
     {
       name: 'sample1',
@@ -58,7 +58,7 @@ export const customFir: Distribution = {
       min: -1,
       max: 1,
       step: 0.05,
-      defaultValue: 1.00,
+      defaultValue: 0,
     },
     {
       name: 'sample4',

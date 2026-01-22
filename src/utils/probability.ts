@@ -59,11 +59,11 @@ export function convolveMultiple(
 export function computeCDF(distribution: number[]): number[] {
   const cdf: number[] = [];
   let cumulative = 0;
-  
+
   for (let i = 0; i < distribution.length; i++) {
     cumulative += distribution[i];
     cdf.push(cumulative);
   }
-  
+
   return cdf;
 }

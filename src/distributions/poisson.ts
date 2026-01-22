@@ -28,12 +28,12 @@ function poissonProbabilities(params: number[]): number[] {
   // 実用的な範囲で計算（確率が十分に小さくなるまで）
   const probabilities: number[] = [];
   const maxK = Math.min(50, Math.ceil(lambda * 3 + 10)); // 3σ + 余裕を持たせる
-  
+
   for (let k = 0; k <= maxK; k++) {
     const logProb = k * Math.log(lambda) - lambda - Math.log(factorial(k));
     const prob = Math.exp(logProb);
     probabilities.push(prob);
-    
+
     // 確率が非常に小さくなったら終了
     if (prob < 1e-5 && k > lambda) {
       break;
@@ -42,7 +42,7 @@ function poissonProbabilities(params: number[]): number[] {
 
   // 正規化（浮動小数点誤差の補正）
   const sum = probabilities.reduce((a, b) => a + b, 0);
-  return probabilities.map(p => p / sum);
+  return probabilities.map((p) => p / sum);
 }
 
 export const poisson: Distribution = {

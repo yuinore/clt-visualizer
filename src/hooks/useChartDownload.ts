@@ -12,7 +12,7 @@ export function useChartDownload<T extends Chart = Chart<'line'>>(
 
     // 元の画像を取得
     const originalImageUrl = chart.toBase64Image();
-    
+
     // 新しいcanvasを作成して白い背景を描画
     const img = new Image();
     img.onload = () => {
@@ -20,16 +20,16 @@ export function useChartDownload<T extends Chart = Chart<'line'>>(
       canvas.width = img.width;
       canvas.height = img.height;
       const ctx = canvas.getContext('2d');
-      
+
       if (!ctx) return;
-      
+
       // 白い背景を描画
       ctx.fillStyle = '#ffffff';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
-      
+
       // 元の画像を描画
       ctx.drawImage(img, 0, 0);
-      
+
       // 画像をダウンロード
       const imageUrl = canvas.toDataURL('image/png');
       const link = document.createElement('a');
@@ -39,7 +39,7 @@ export function useChartDownload<T extends Chart = Chart<'line'>>(
       link.click();
       document.body.removeChild(link);
     };
-    
+
     img.src = originalImageUrl;
   }, [filename]);
 
