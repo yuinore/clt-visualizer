@@ -27,31 +27,6 @@ export function convolve(dist1: number[], dist2: number[]): number[] {
 }
 
 /**
- * 同じ確率分布を複数回畳み込む
- * @param distribution 元の確率分布
- * @param count 試行回数
- * @returns 畳み込み結果の確率分布
- */
-export function convolveMultiple(
-  distribution: number[],
-  count: number
-): number[] {
-  if (count <= 0) {
-    return [];
-  }
-  if (count === 1) {
-    return [...distribution];
-  }
-
-  let result = [...distribution];
-  for (let i = 1; i < count; i++) {
-    result = convolve(result, distribution);
-  }
-
-  return result;
-}
-
-/**
  * 確率分布から累積分布関数（CDF）を計算
  * @param distribution 確率分布
  * @returns 累積分布関数（各インデックスiは0からiまでの確率の合計）

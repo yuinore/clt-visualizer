@@ -73,16 +73,15 @@ export function computeStepFunctionAmplitude(omega: number): number {
  * CDFを直接フーリエ変換すると発散するため、確率分布のz変換結果に
  * ステップ関数の振幅特性 1 / √(2 - 2 cos ω) を掛けることで算出する
  * @param amplitudeData 確率分布のz変換結果（振幅特性）
+ * @param stepAmplitudes 事前計算されたステップ関数の振幅特性の配列（angularFrequencyの順序に対応）
  * @returns CDFの振幅特性
  */
 export function computeCDFAmplitudeFromDistribution(
-  amplitudeData: AmplitudePoint[]
+  amplitudeData: AmplitudePoint[],
+  stepAmplitudes: number[]
 ): AmplitudePoint[] {
-  return amplitudeData.map((point) => {
-    const stepAmplitude = computeStepFunctionAmplitude(point.angularFrequency);
-    return {
-      angularFrequency: point.angularFrequency,
-      amplitude: point.amplitude * stepAmplitude,
-    };
-  });
+  return amplitudeData.map((point, index) => ({
+    angularFrequency: point.angularFrequency,
+    amplitude: point.amplitude * stepAmplitudes[index],
+  }));
 }

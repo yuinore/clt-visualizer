@@ -12,10 +12,11 @@ import { AmplitudeChart } from './components/AmplitudeChart';
 import { CumulativeDistributionChart } from './components/CumulativeDistributionChart';
 import { CumulativeAmplitudeChart } from './components/CumulativeAmplitudeChart';
 import { DISTRIBUTIONS } from './distributions';
-import { convolveMultiple, type DistributionType } from './utils/probability';
+import { convolve, type DistributionType } from './utils/probability';
 import {
   computeZTransform,
   computeCDFAmplitudeFromDistribution,
+  computeStepFunctionAmplitude,
 } from './utils/zTransform';
 
 const theme = createTheme({
@@ -73,21 +74,41 @@ function App() {
     return distribution.probabilities;
   }, [distribution, currentParams]);
 
+  // 基礎となるz変換を計算（1回畳み込み）
+  const baseZTransform = useMemo(() => {
+    return computeZTransform(distributionProbabilities);
+  }, [distributionProbabilities]);
+
+  // ステップ関数の振幅特性を事前計算（angularFrequencyは固定間隔なので一度だけ計算）
+  const stepAmplitudes = useMemo(() => {
+    return baseZTransform.map((point) =>
+      computeStepFunctionAmplitude(point.angularFrequency)
+    );
+  }, [baseZTransform]);
+
   const amplitudeDataArray = useMemo(() => {
+    // 数学的性質を利用: n回の畳み込みのz変換は、元のz変換のn乗
+    // |Z[f * f * ... * f]| = |Z[f]^n| = |Z[f]|^n
+    // したがって、1回のz変換を計算し、その振幅をべき乗することで
+    // 畳み込みを計算せずにn回畳み込みの振幅特性を求められる
     const result = [];
     for (let i = 1; i <= convolutionCount; i++) {
-      const dist = convolveMultiple(distributionProbabilities, i);
-      result.push(computeZTransform(dist));
+      result.push(
+        baseZTransform.map((point) => ({
+          angularFrequency: point.angularFrequency,
+          amplitude: Math.pow(point.amplitude, i),
+        }))
+      );
     }
     return result;
-  }, [distributionProbabilities, convolutionCount]);
+  }, [baseZTransform, convolutionCount]);
 
   const cdfAmplitudeDataArray = useMemo(() => {
-    // 確率分布のz変換結果を再利用して、ステップ関数の振幅特性を掛ける
+    // 確率分布のz変換結果に事前計算されたステップ関数の振幅特性を掛ける
     return amplitudeDataArray.map((amplitudeData) =>
-      computeCDFAmplitudeFromDistribution(amplitudeData)
+      computeCDFAmplitudeFromDistribution(amplitudeData, stepAmplitudes)
     );
-  }, [amplitudeDataArray]);
+  }, [amplitudeDataArray, stepAmplitudes]);
 
   const distributionLabels = useMemo(() => {
     return Array.from({ length: convolutionCount }, (_, i) => {
@@ -98,8 +119,19 @@ function App() {
 
   const distributionsForChart = useMemo(() => {
     const result: number[][] = [];
-    for (let i = 1; i <= convolutionCount; i++) {
-      result.push(convolveMultiple(distributionProbabilities, i));
+    if (convolutionCount >= 1) {
+      // 1回畳み込みは元の分布そのもの
+      let currentDistribution = [...distributionProbabilities];
+      result.push(currentDistribution);
+
+      // n回畳み込みの結果に元の分布を1回畳み込むことで、n+1回畳み込みを計算
+      for (let i = 2; i <= convolutionCount; i++) {
+        currentDistribution = convolve(
+          currentDistribution,
+          distributionProbabilities
+        );
+        result.push(currentDistribution);
+      }
     }
     return result;
   }, [distributionProbabilities, convolutionCount]);
