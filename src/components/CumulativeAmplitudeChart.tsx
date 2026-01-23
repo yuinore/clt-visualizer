@@ -28,7 +28,7 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  Filler
+  Filler,
 );
 
 interface CumulativeAmplitudeChartProps {
@@ -44,7 +44,7 @@ export function CumulativeAmplitudeChart({
 }: CumulativeAmplitudeChartProps) {
   const { t } = useTranslation();
   const { chartRef, handleDownload } = useChartDownload(
-    'cumulative-amplitude-chart.png'
+    'cumulative-amplitude-chart.png',
   );
 
   const chartData: ChartData<'line'> = useMemo(() => {
@@ -75,7 +75,7 @@ export function CumulativeAmplitudeChart({
         label: t('cdfAmplitude.stepFunction'),
         data: firstAmplitudeData.map((point) => {
           const stepAmplitude = computeStepFunctionAmplitude(
-            point.angularFrequency
+            point.angularFrequency,
           );
           return {
             x: point.angularFrequency,

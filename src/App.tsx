@@ -40,7 +40,7 @@ function App() {
       distribution.xAxisLabelKey
         ? t(distribution.xAxisLabelKey)
         : t('distribution.xAxis'),
-    [distribution.xAxisLabelKey, t]
+    [distribution.xAxisLabelKey, t],
   );
 
   // 分布が変更されたときにパラメータをリセット
@@ -82,7 +82,7 @@ function App() {
   // ステップ関数の振幅特性を事前計算（angularFrequencyは固定間隔なので一度だけ計算）
   const stepAmplitudes = useMemo(() => {
     return baseZTransform.map((point) =>
-      computeStepFunctionAmplitude(point.angularFrequency)
+      computeStepFunctionAmplitude(point.angularFrequency),
     );
   }, [baseZTransform]);
 
@@ -97,7 +97,7 @@ function App() {
         baseZTransform.map((point) => ({
           angularFrequency: point.angularFrequency,
           amplitude: Math.pow(point.amplitude, i),
-        }))
+        })),
       );
     }
     return result;
@@ -106,7 +106,7 @@ function App() {
   const cdfAmplitudeDataArray = useMemo(() => {
     // 確率分布のz変換結果に事前計算されたステップ関数の振幅特性を掛ける
     return amplitudeDataArray.map((amplitudeData) =>
-      computeCDFAmplitudeFromDistribution(amplitudeData, stepAmplitudes)
+      computeCDFAmplitudeFromDistribution(amplitudeData, stepAmplitudes),
     );
   }, [amplitudeDataArray, stepAmplitudes]);
 
@@ -128,7 +128,7 @@ function App() {
       for (let i = 2; i <= convolutionCount; i++) {
         currentDistribution = convolve(
           currentDistribution,
-          distributionProbabilities
+          distributionProbabilities,
         );
         result.push(currentDistribution);
       }

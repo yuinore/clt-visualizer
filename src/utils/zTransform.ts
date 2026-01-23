@@ -13,7 +13,7 @@ export interface AmplitudePoint {
 export function computeZTransform(
   distribution: number[],
   numPoints: number = 512,
-  maxAngularFrequency: number = Math.PI
+  maxAngularFrequency: number = Math.PI,
 ): AmplitudePoint[] {
   const result: AmplitudePoint[] = [];
 
@@ -78,7 +78,7 @@ export function computeStepFunctionAmplitude(omega: number): number {
  */
 export function computeCDFAmplitudeFromDistribution(
   amplitudeData: AmplitudePoint[],
-  stepAmplitudes: number[]
+  stepAmplitudes: number[],
 ): AmplitudePoint[] {
   return amplitudeData.map((point, index) => ({
     angularFrequency: point.angularFrequency,

@@ -2,7 +2,7 @@ import { useRef, useCallback } from 'react';
 import type { Chart } from 'chart.js';
 
 export function useChartDownload<T extends Chart = Chart<'line'>>(
-  filename: string
+  filename: string,
 ) {
   const chartRef = useRef<T | undefined>(undefined);
 

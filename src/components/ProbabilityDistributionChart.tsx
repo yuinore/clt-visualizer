@@ -26,7 +26,7 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  Filler
+  Filler,
 );
 
 interface ProbabilityDistributionChartProps {
@@ -42,7 +42,7 @@ export function ProbabilityDistributionChart({
 }: ProbabilityDistributionChartProps) {
   const { t } = useTranslation();
   const { chartRef, handleDownload } = useChartDownload(
-    'probability-distribution-chart.png'
+    'probability-distribution-chart.png',
   );
 
   const chartData: ChartData<'line'> = useMemo(() => {

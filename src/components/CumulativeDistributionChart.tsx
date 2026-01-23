@@ -27,7 +27,7 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  Filler
+  Filler,
 );
 
 interface CumulativeDistributionChartProps {
@@ -43,7 +43,7 @@ export function CumulativeDistributionChart({
 }: CumulativeDistributionChartProps) {
   const { t } = useTranslation();
   const { chartRef, handleDownload } = useChartDownload(
-    'cumulative-distribution-chart.png'
+    'cumulative-distribution-chart.png',
   );
 
   const chartData: ChartData<'line'> = useMemo(() => {
