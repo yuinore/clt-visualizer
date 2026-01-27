@@ -7,6 +7,7 @@ import {
   Typography,
   Switch,
   Slider,
+  Link,
 } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -361,6 +362,28 @@ function App() {
               />
             </Paper>
           )}
+        </Box>
+
+        <Box
+          sx={{
+            mt: 4,
+            pt: 3,
+            borderTop: '1px solid',
+            borderColor: 'divider',
+            textAlign: 'center',
+          }}
+        >
+          <Typography variant="body2" color="text.secondary">
+            Directed & Built by yuinore / See GitHub →{' '}
+            <Link
+              href="https://github.com/yuinore"
+              target="_blank"
+              rel="noopener noreferrer"
+              sx={{ textDecoration: 'none' }}
+            >
+              https://github.com/yuinore
+            </Link>
+          </Typography>
         </Box>
       </Container>
     </ThemeProvider>
