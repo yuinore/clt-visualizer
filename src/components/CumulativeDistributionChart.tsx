@@ -18,6 +18,8 @@ import { getHue, getLuminance } from '../utils/chartUtils';
 import { computeCDF } from '../utils/probability';
 import { useChartDownload } from '../hooks/useChartDownload';
 import { ChartWithDownloadButton } from './ChartWithDownloadButton';
+import type { DiscreteDistribution } from '../types/discreteDistribution';
+import { limitRange } from '../types/discreteDistribution';
 
 ChartJS.register(
   CategoryScale,
@@ -31,7 +33,7 @@ ChartJS.register(
 );
 
 interface CumulativeDistributionChartProps {
-  distributions: number[][];
+  distributions: DiscreteDistribution[];
   labels: string[];
   xAxisLabel?: string;
 }
@@ -51,21 +53,21 @@ export function CumulativeDistributionChart({
       // CDFを計算
       const cdf = computeCDF(dist);
 
-      const xValues: number[] = [];
-      for (let i = 0; i < cdf.length; i++) {
-        xValues.push(i);
-      }
-
       const hue = getHue(index);
       const luminance = getLuminance(index);
 
       // 表示を最初の101サンプルに制限
-      const displayCdf = cdf.slice(0, 101);
+      const displayCdf = limitRange(cdf, -100, 100);
+
+      const xValues: number[] = [];
+      for (let i = 0; i < displayCdf.distribution.length; i++) {
+        xValues.push(i + displayCdf.offset);
+      }
 
       return {
         label: labels[index] || `CDF ${index + 1}`,
-        data: displayCdf.map((prob, idx) => ({
-          x: idx,
+        data: displayCdf.distribution.map((prob, idx) => ({
+          x: idx + displayCdf.offset,
           y: prob,
         })),
         borderColor: `hsl(${hue}, 80%, ${luminance}%)`,
@@ -106,6 +108,9 @@ export function CumulativeDistributionChart({
         },
         type: 'linear',
         position: 'bottom',
+        ticks: {
+          stepSize: 1,
+        },
       },
       y: {
         title: {

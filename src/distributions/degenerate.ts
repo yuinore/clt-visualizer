@@ -4,6 +4,9 @@ import type { Distribution } from './base';
 export const degenerate: Distribution = {
   type: 'degenerate',
   name: 'degenerate',
-  probabilities: [1, 0],
+  probabilities: () => ({
+    offset: -1,
+    distribution: [0, 1, 0],
+  }),
   xAxisLabelKey: 'distribution.xAxisValue',
 };

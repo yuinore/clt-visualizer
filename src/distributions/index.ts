@@ -53,4 +53,7 @@ export {
   zeta,
   normal,
 };
+
 export type { Distribution } from './base';
+
+export type DistributionType = keyof typeof DISTRIBUTIONS;

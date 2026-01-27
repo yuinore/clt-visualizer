@@ -6,7 +6,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import type { DistributionType } from '../utils/probability';
+import type { DistributionType } from '../distributions';
 
 interface DistributionSelectorProps {
   value: DistributionType;
@@ -35,12 +35,12 @@ export function DistributionSelector({
           <MenuItem value="coin">{t('distribution.coin')}</MenuItem>
           <MenuItem value="dice">{t('distribution.dice')}</MenuItem>
           <MenuItem value="diceLoaded">{t('distribution.diceLoaded')}</MenuItem>
+          <MenuItem value="binomial">{t('distribution.binomial')}</MenuItem>
+          <MenuItem value="normal">{t('distribution.normal')}</MenuItem>
           <MenuItem value="uniform">{t('distribution.uniform')}</MenuItem>
           <MenuItem value="bernoulli">{t('distribution.bernoulli')}</MenuItem>
           <MenuItem value="poisson">{t('distribution.poisson')}</MenuItem>
-          <MenuItem value="binomial">{t('distribution.binomial')}</MenuItem>
           <MenuItem value="zeta">{t('distribution.zeta')}</MenuItem>
-          <MenuItem value="normal">{t('distribution.normal')}</MenuItem>
           <MenuItem value="degenerate">{t('distribution.degenerate')}</MenuItem>
           <MenuItem value="lattice">{t('distribution.lattice')}</MenuItem>
           <MenuItem value="differential">

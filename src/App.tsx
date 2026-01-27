@@ -12,12 +12,18 @@ import { AmplitudeChart } from './components/AmplitudeChart';
 import { CumulativeDistributionChart } from './components/CumulativeDistributionChart';
 import { CumulativeAmplitudeChart } from './components/CumulativeAmplitudeChart';
 import { DISTRIBUTIONS } from './distributions';
-import { convolve, type DistributionType } from './utils/probability';
+import { convolve } from './utils/probability';
 import {
   computeZTransform,
   computeCDFAmplitudeFromDistribution,
   computeStepFunctionAmplitude,
 } from './utils/zTransform';
+import {
+  cloneDiscreteDistribution,
+  isDiscreteDistribution,
+  type DiscreteDistribution,
+} from './types/discreteDistribution';
+import type { DistributionType } from './distributions';
 
 const theme = createTheme({
   palette: {
@@ -68,16 +74,27 @@ function App() {
   }, [distribution.params, distributionParams]);
 
   // probabilitiesが関数の場合は呼び出す
-  const distributionProbabilities = useMemo(() => {
+  const distributionProbabilities: DiscreteDistribution = useMemo(() => {
     if (typeof distribution.probabilities === 'function') {
-      return distribution.probabilities(currentParams);
+      const result = distribution.probabilities(currentParams);
+      if (isDiscreteDistribution(result)) {
+        return result;
+      }
+      return {
+        offset: 0,
+        distribution: result,
+      };
     }
-    return distribution.probabilities;
+    return {
+      offset: 0,
+      distribution: distribution.probabilities,
+    };
   }, [distribution, currentParams]);
 
   // 基礎となるz変換を計算（1回畳み込み）
   const baseZTransform = useMemo(() => {
-    return computeZTransform(distributionProbabilities);
+    // ignore the offset (because it make no difference in the amplitude of the z transform)
+    return computeZTransform(distributionProbabilities.distribution);
   }, [distributionProbabilities]);
 
   // ステップ関数の振幅特性を事前計算（angularFrequencyは固定間隔なので一度だけ計算）
@@ -119,10 +136,12 @@ function App() {
   }, [convolutionCount, distributionType, t]);
 
   const distributionsForChart = useMemo(() => {
-    const result: number[][] = [];
+    const result: DiscreteDistribution[] = [];
     if (convolutionCount >= 1) {
       // 1回畳み込みは元の分布そのもの
-      let currentDistribution = [...distributionProbabilities];
+      let currentDistribution = cloneDiscreteDistribution(
+        distributionProbabilities,
+      );
       result.push(currentDistribution);
 
       // n回畳み込みの結果に元の分布を1回畳み込むことで、n+1回畳み込みを計算

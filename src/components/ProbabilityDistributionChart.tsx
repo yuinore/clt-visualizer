@@ -18,6 +18,8 @@ import type { ChartData } from 'chart.js';
 import { getHue, getLuminance } from '../utils/chartUtils';
 import { useChartDownload } from '../hooks/useChartDownload';
 import { ChartWithDownloadButton } from './ChartWithDownloadButton';
+import type { DiscreteDistribution } from '../types/discreteDistribution';
+import { limitRange } from '../types/discreteDistribution';
 
 ChartJS.register(
   CategoryScale,
@@ -32,7 +34,7 @@ ChartJS.register(
 );
 
 interface ProbabilityDistributionChartProps {
-  distributions: number[][];
+  distributions: DiscreteDistribution[];
   labels: string[];
   xAxisLabel?: string;
   chartType?: 'line' | 'bar';
@@ -59,12 +61,12 @@ export function ProbabilityDistributionChart({
       const luminance = getLuminance(index);
 
       // 表示を最初の101サンプルに制限
-      const displayDist = dist.slice(0, 101);
+      const displayDist = limitRange(dist, -100, 100);
 
       const baseDataset = {
         label: labels[index] || `Distribution ${index + 1}`,
-        data: displayDist.map((prob, idx) => ({
-          x: idx,
+        data: displayDist.distribution.map((prob, idx) => ({
+          x: idx + displayDist.offset,
           y: prob,
         })),
         borderColor: `hsl(${hue}, 80%, ${luminance}%)`,

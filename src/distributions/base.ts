@@ -1,3 +1,5 @@
+import type { DiscreteDistribution } from '../types/discreteDistribution';
+
 export interface DistributionParam {
   name: string;
   type: 'number';
@@ -10,7 +12,10 @@ export interface DistributionParam {
 export interface Distribution {
   type: string;
   name: string;
-  probabilities: number[] | ((params: number[]) => number[]);
+  probabilities:
+    | number[]
+    | ((params: number[]) => number[])
+    | ((params: number[]) => DiscreteDistribution);
   params?: DistributionParam[];
   /**
    * i18n key for x-axis label of the probability chart
