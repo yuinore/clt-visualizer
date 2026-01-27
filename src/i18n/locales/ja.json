@@ -21,11 +21,11 @@
     "lattice": "格子型分布",
     "latticeDescription": "格子型分布（すべての可能な値が a+bn の形式で表現できる離散分布）の特殊なケースで、等間隔に配置された離散点で一様な確率を取る分布。",
     "fir": "FIR ローパスフィルタ",
-    "firDescription": "FIR ローパスフィルタのインパルス応答。非負ではないため、確率分布であるための条件を満たさない。",
+    "firDescription": "FIR ローパスフィルタのインパルス応答の例。非負ではないため、確率分布であるための条件を満たさない。",
     "customFir": "カスタム FIR",
-    "customFirDescription": "8個のサンプル値を-1から1の範囲で指定できるカスタムFIRフィルタのインパルス応答。絶対値の総和で正規化される。非負ではないため、確率分布であるための条件を満たさない。",
+    "customFirDescription": "11個のサンプル値を-1から1の範囲で指定できるカスタムFIRフィルタのインパルス応答。絶対値の総和で正規化される。",
     "iir": "IIR ローパスフィルタ",
-    "iirDescription": "IIR ローパスフィルタのインパルス応答。非負ではないため、確率分布であるための条件を満たさない。",
+    "iirDescription": "IIR ローパスフィルタのインパルス応答の例。非負ではないため、確率分布であるための条件を満たさない。",
     "differential": "差分フィルタ",
     "differentialDescription": "連続時間における微分に相当し、一次の IIR ハイパスフィルタのインパルス応答。非負ではないため、確率分布であるための条件を満たさない。",
     "differentialCentral": "中心差分フィルタ",
@@ -34,6 +34,10 @@
     "bernoulli": "ベルヌーイ分布",
     "poisson": "ポアソン分布",
     "binomial": "二項分布",
+    "zeta": "ゼータ分布",
+    "zetaDescription": "離散的なべき分布（パレート分布の離散版）。",
+    "normal": "正規分布",
+    "normalDescription": "離散的な正規分布（ガウス分布）。",
     "convolutionCount": "最大試行回数",
     "xAxis": "出目の合計",
     "xAxisSum": "出目の合計",
@@ -57,7 +61,13 @@
       "sample4": "サンプル 4",
       "sample5": "サンプル 5",
       "sample6": "サンプル 6",
-      "sample7": "サンプル 7"
+      "sample7": "サンプル 7",
+      "sample8": "サンプル 8",
+      "sample9": "サンプル 9",
+      "sample10": "サンプル 10",
+      "s": "指数 (s)",
+      "mean": "平均 (μ)",
+      "std": "標準偏差 (σ)"
     }
   },
   "amplitude": {
@@ -65,7 +75,8 @@
     "xAxis": "角周波数",
     "yAxis": "振幅",
     "yAxisDb": "振幅 (dB)",
-    "dbSwitch": "dB 表示"
+    "dbSwitch": "dB 表示",
+    "zeroDb": "0dB"
   },
   "cdf": {
     "title": "累積分布関数",

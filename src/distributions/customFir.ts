@@ -2,12 +2,12 @@ import type { Distribution } from './base';
 
 /**
  * カスタムFIRフィルタのインパルス応答を計算
- * 8個のサンプル値を-1から1の範囲で指定し、絶対値の総和で正規化
+ * 11個のサンプル値を-1から1の範囲で指定し、絶対値の総和で正規化
  */
 function customFirProbabilities(params: number[]): number[] {
-  if (params.length !== 8) {
+  if (params.length !== 11) {
     // デフォルト値: すべて0（正規化できない場合は[1,0,...]を返す）
-    return [1, 0, 0, 0, 0, 0, 0, 0];
+    return [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   }
 
   // 絶対値の総和を計算
@@ -15,7 +15,7 @@ function customFirProbabilities(params: number[]): number[] {
 
   // 絶対値の総和が0の場合は、デフォルト値を返す
   if (sumAbs === 0) {
-    return [1, 0, 0, 0, 0, 0, 0, 0];
+    return [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
   }
 
   // 絶対値の総和で正規化
@@ -34,7 +34,7 @@ export const customFir: Distribution = {
       min: -1,
       max: 1,
       step: 0.05,
-      defaultValue: 1.0,
+      defaultValue: 0.6,
     },
     {
       name: 'sample1',
@@ -42,7 +42,7 @@ export const customFir: Distribution = {
       min: -1,
       max: 1,
       step: 0.05,
-      defaultValue: 0,
+      defaultValue: 1.0,
     },
     {
       name: 'sample2',
@@ -50,7 +50,7 @@ export const customFir: Distribution = {
       min: -1,
       max: 1,
       step: 0.05,
-      defaultValue: 0,
+      defaultValue: -0.1,
     },
     {
       name: 'sample3',
@@ -58,7 +58,7 @@ export const customFir: Distribution = {
       min: -1,
       max: 1,
       step: 0.05,
-      defaultValue: 0,
+      defaultValue: 1.0,
     },
     {
       name: 'sample4',
@@ -66,7 +66,7 @@ export const customFir: Distribution = {
       min: -1,
       max: 1,
       step: 0.05,
-      defaultValue: 0,
+      defaultValue: 0.6,
     },
     {
       name: 'sample5',
@@ -86,6 +86,30 @@ export const customFir: Distribution = {
     },
     {
       name: 'sample7',
+      type: 'number',
+      min: -1,
+      max: 1,
+      step: 0.05,
+      defaultValue: 0,
+    },
+    {
+      name: 'sample8',
+      type: 'number',
+      min: -1,
+      max: 1,
+      step: 0.05,
+      defaultValue: 0,
+    },
+    {
+      name: 'sample9',
+      type: 'number',
+      min: -1,
+      max: 1,
+      step: 0.05,
+      defaultValue: 0,
+    },
+    {
+      name: 'sample10',
       type: 'number',
       min: -1,
       max: 1,

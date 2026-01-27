@@ -21,11 +21,11 @@
     "lattice": "Lattice Distribution",
     "latticeDescription": "A special case of lattice distribution (discrete distribution where all possible values can be represented in the form a+bn, where a, b≠0 and n is an integer) with uniform probability at equally spaced discrete points.",
     "fir": "FIR Low-pass Filter",
-    "firDescription": "Impulse response of FIR low-pass filter. It does not satisfy the conditions for a probability distribution because it is not non-negative.",
+    "firDescription": "Example of impulse response of FIR low-pass filter. It does not satisfy the conditions for a probability distribution because it is not non-negative.",
     "customFir": "Custom FIR",
-    "customFirDescription": "Custom FIR filter impulse response with 8 samples adjustable from -1 to 1. Normalized by the sum of absolute values. It does not satisfy the conditions for a probability distribution because it is not non-negative.",
+    "customFirDescription": "Custom FIR filter impulse response with 11 samples adjustable from -1 to 1. Normalized by the sum of absolute values.",
     "iir": "IIR Low-pass Filter",
-    "iirDescription": "Impulse response of IIR low-pass filter. It does not satisfy the conditions for a probability distribution because it is not non-negative.",
+    "iirDescription": "Example of impulse response of IIR low-pass filter. It does not satisfy the conditions for a probability distribution because it is not non-negative.",
     "differential": "Difference Filter",
     "differentialDescription": "Discrete-time difference, impulse response of a first-order IIR high-pass filter. It does not satisfy the conditions for a probability distribution because it is not non-negative.",
     "differentialCentral": "Central Difference Filter",
@@ -34,6 +34,10 @@
     "bernoulli": "Bernoulli Distribution",
     "poisson": "Poisson Distribution",
     "binomial": "Binomial Distribution",
+    "zeta": "Zeta Distribution",
+    "zetaDescription": "Discrete power-law distribution (discrete version of Pareto distribution).",
+    "normal": "Normal Distribution",
+    "normalDescription": "Discrete normal (Gaussian) distribution.",
     "convolutionCount": "Maximum Number of Trials",
     "xAxis": "Sum of Outcomes",
     "xAxisSum": "Sum of Outcomes",
@@ -57,7 +61,13 @@
       "sample4": "Sample 4",
       "sample5": "Sample 5",
       "sample6": "Sample 6",
-      "sample7": "Sample 7"
+      "sample7": "Sample 7",
+      "sample8": "Sample 8",
+      "sample9": "Sample 9",
+      "sample10": "Sample 10",
+      "s": "Exponent (s)",
+      "mean": "Mean (μ)",
+      "std": "Standard Deviation (σ)"
     }
   },
   "amplitude": {
@@ -65,7 +75,8 @@
     "xAxis": "Angular Frequency",
     "yAxis": "Amplitude",
     "yAxisDb": "Amplitude (dB)",
-    "dbSwitch": "dB view"
+    "dbSwitch": "dB view",
+    "zeroDb": "0dB"
   },
   "cdf": {
     "title": "Cumulative Distribution Function",

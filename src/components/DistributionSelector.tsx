@@ -39,6 +39,8 @@ export function DistributionSelector({
           <MenuItem value="bernoulli">{t('distribution.bernoulli')}</MenuItem>
           <MenuItem value="poisson">{t('distribution.poisson')}</MenuItem>
           <MenuItem value="binomial">{t('distribution.binomial')}</MenuItem>
+          <MenuItem value="zeta">{t('distribution.zeta')}</MenuItem>
+          <MenuItem value="normal">{t('distribution.normal')}</MenuItem>
           <MenuItem value="degenerate">{t('distribution.degenerate')}</MenuItem>
           <MenuItem value="lattice">{t('distribution.lattice')}</MenuItem>
           <MenuItem value="differential">
@@ -100,6 +102,16 @@ export function DistributionSelector({
       {value === 'differentialCentral' && (
         <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
           {t('distribution.differentialCentralDescription')}
+        </Typography>
+      )}
+      {value === 'zeta' && (
+        <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+          {t('distribution.zetaDescription')}
+        </Typography>
+      )}
+      {value === 'normal' && (
+        <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+          {t('distribution.normalDescription')}
         </Typography>
       )}
     </>

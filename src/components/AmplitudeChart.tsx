@@ -64,6 +64,28 @@ export function AmplitudeChart({
       };
     });
 
+    // 0dB を灰色の点線で追加
+    if (amplitudeDataArray.length > 0) {
+      const firstAmplitudeData = amplitudeDataArray[0];
+      const zeroDbData = {
+        label: t('amplitude.zeroDb'),
+        data: firstAmplitudeData.map((point) => {
+          return {
+            x: point.angularFrequency,
+            y: isDb ? 0 : 1 + 1e-8, // make the y axis range of the chart slightly larger than 1
+          };
+        }),
+        borderColor: 'gray',
+        backgroundColor: 'transparent',
+        borderDash: [5, 5],
+        fill: false,
+        tension: 0,
+        pointRadius: 0,
+        pointHoverRadius: 3,
+      };
+      datasets.push(zeroDbData as any);
+    }
+
     return {
       datasets,
     };

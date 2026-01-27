@@ -13,6 +13,8 @@ import { differentialCentral } from './differentialCentral';
 import { degenerate } from './degenerate';
 import { lattice } from './lattice';
 import { customFir } from './customFir';
+import { zeta } from './zeta';
+import { normal } from './normal';
 
 export const DISTRIBUTIONS: DistributionMap = {
   [coin.type]: coin,
@@ -29,6 +31,8 @@ export const DISTRIBUTIONS: DistributionMap = {
   [degenerate.type]: degenerate,
   [lattice.type]: lattice,
   [customFir.type]: customFir,
+  [zeta.type]: zeta,
+  [normal.type]: normal,
 };
 
 export {
@@ -46,5 +50,7 @@ export {
   degenerate,
   lattice,
   customFir,
+  zeta,
+  normal,
 };
 export type { Distribution } from './base';

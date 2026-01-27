@@ -16,7 +16,7 @@ function latticeProbabilities(params: number[]): number[] {
   const xMax = xMin + (count - 1) * step;
 
   // Array indices correspond to X values (index i = X value i)
-  const arraySize = xMax + 1;
+  const arraySize = xMax + 2;
   const probabilities = new Array(arraySize).fill(0);
 
   // Set uniform probability at each lattice point
