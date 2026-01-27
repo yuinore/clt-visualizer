@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Container, Box, Paper, Typography, Switch } from '@mui/material';
+import { Container, Box, Paper, Typography, Switch, Slider } from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { DistributionSelector } from './components/DistributionSelector';
@@ -39,6 +39,8 @@ function App() {
   const [isDb, setIsDb] = useState(false);
   const [isBarChart, setIsBarChart] = useState(false);
   const [distributionParams, setDistributionParams] = useState<number[]>([]);
+  const [displayRange, setDisplayRange] = useState<number[]>([-60, 60]);
+  const [isRangeFixed, setIsRangeFixed] = useState(false);
 
   const distribution = DISTRIBUTIONS[distributionType];
   const prevDistributionTypeRef = useRef<DistributionType>(distributionType);
@@ -211,6 +213,9 @@ function App() {
                 labels={distributionLabels}
                 xAxisLabel={xAxisLabel}
                 chartType={isBarChart ? 'bar' : 'line'}
+                displayRangeMin={displayRange[0]}
+                displayRangeMax={displayRange[1]}
+                isRangeFixed={isRangeFixed}
               />
             </Paper>
             <Paper sx={{ p: 2, flex: 1 }}>
@@ -233,6 +238,9 @@ function App() {
                 distributions={distributionsForChart}
                 labels={distributionLabels}
                 xAxisLabel={xAxisLabel}
+                displayRangeMin={displayRange[0]}
+                displayRangeMax={displayRange[1]}
+                isRangeFixed={isRangeFixed}
               />
             </Paper>
             <Paper sx={{ p: 2, flex: 1 }}>
@@ -299,6 +307,39 @@ function App() {
                 slotProps={{ input: { 'aria-label': t('amplitude.dbSwitch') } }}
               />
               <Typography variant="body1">{t('amplitude.dbSwitch')}</Typography>
+            </Box>
+            <Box sx={{ mt: 3, width: '100%' }}>
+              <Typography gutterBottom>
+                {t('distribution.maxDisplayRange')}: [{displayRange[0]}, {displayRange[1]}]
+              </Typography>
+              <Slider
+                value={displayRange}
+                onChange={(_, newValue) => setDisplayRange(newValue as number[])}
+                valueLabelDisplay="auto"
+                min={-200}
+                max={200}
+                step={10}
+                disableSwap
+              />
+            </Box>
+            <Box
+              sx={{
+                mt: 2,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+              }}
+            >
+              <Switch
+                checked={isRangeFixed}
+                onChange={(_, checked) => setIsRangeFixed(checked)}
+                slotProps={{
+                  input: { 'aria-label': t('distribution.fixDisplayRange') },
+                }}
+              />
+              <Typography variant="body1">
+                {t('distribution.fixDisplayRange')}
+              </Typography>
             </Box>
           </Paper>
           {distribution.params && distribution.params.length > 0 && (

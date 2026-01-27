@@ -38,6 +38,9 @@ interface ProbabilityDistributionChartProps {
   labels: string[];
   xAxisLabel?: string;
   chartType?: 'line' | 'bar';
+  displayRangeMin?: number;
+  displayRangeMax?: number;
+  isRangeFixed?: boolean;
 }
 
 export function ProbabilityDistributionChart({
@@ -45,6 +48,9 @@ export function ProbabilityDistributionChart({
   labels,
   xAxisLabel,
   chartType = 'line',
+  displayRangeMin = -100,
+  displayRangeMax = 100,
+  isRangeFixed = false,
 }: ProbabilityDistributionChartProps) {
   const { t } = useTranslation();
   const lineChartRef = useChartDownload<ChartJS<'line'>>(
@@ -60,8 +66,8 @@ export function ProbabilityDistributionChart({
       const hue = getHue(index);
       const luminance = getLuminance(index);
 
-      // 表示を最初の101サンプルに制限
-      const displayDist = limitRange(dist, -100, 100);
+      // 表示範囲を制限
+      const displayDist = limitRange(dist, displayRangeMin, displayRangeMax);
 
       const baseDataset = {
         label: labels[index] || `Distribution ${index + 1}`,
@@ -88,7 +94,7 @@ export function ProbabilityDistributionChart({
         };
       }
     });
-  }, [distributions, labels, chartType]);
+  }, [distributions, labels, chartType, displayRangeMin, displayRangeMax]);
 
   const chartData = useMemo(() => {
     return { datasets };
@@ -123,6 +129,10 @@ export function ProbabilityDistributionChart({
           ticks: {
             stepSize: 1,
           },
+          ...(isRangeFixed && {
+            min: displayRangeMin,
+            max: displayRangeMax,
+          }),
         },
         y: {
           title: {
@@ -133,7 +143,7 @@ export function ProbabilityDistributionChart({
         },
       },
     }),
-    [t, xAxisLabel],
+    [t, xAxisLabel, isRangeFixed, displayRangeMin, displayRangeMax],
   );
 
   return (

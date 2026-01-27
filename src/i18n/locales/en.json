@@ -47,6 +47,8 @@
     "xAxisTime": "Time (samples)",
     "yAxis": "Probability",
     "barChartSwitch": "Show as bar chart",
+    "maxDisplayRange": "Maximum Display Range",
+    "fixDisplayRange": "Fix Display Range",
     "params": {
       "length": "Length",
       "p": "Success Probability",

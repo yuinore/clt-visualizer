@@ -36,12 +36,18 @@ interface CumulativeDistributionChartProps {
   distributions: DiscreteDistribution[];
   labels: string[];
   xAxisLabel?: string;
+  displayRangeMin?: number;
+  displayRangeMax?: number;
+  isRangeFixed?: boolean;
 }
 
 export function CumulativeDistributionChart({
   distributions,
   labels,
   xAxisLabel,
+  displayRangeMin = -100,
+  displayRangeMax = 100,
+  isRangeFixed = false,
 }: CumulativeDistributionChartProps) {
   const { t } = useTranslation();
   const { chartRef, handleDownload } = useChartDownload<ChartJS<'line'>>(
@@ -56,8 +62,8 @@ export function CumulativeDistributionChart({
       const hue = getHue(index);
       const luminance = getLuminance(index);
 
-      // 表示を最初の101サンプルに制限
-      const displayCdf = limitRange(cdf, -100, 100);
+      // 表示範囲を制限
+      const displayCdf = limitRange(cdf, displayRangeMin, displayRangeMax);
 
       const xValues: number[] = [];
       for (let i = 0; i < displayCdf.distribution.length; i++) {
@@ -82,46 +88,53 @@ export function CumulativeDistributionChart({
     return {
       datasets,
     };
-  }, [distributions, labels]);
+  }, [distributions, labels, displayRangeMin, displayRangeMax]);
 
-  const options: ChartOptions<'line'> = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: 'top' as const,
-      },
-      title: {
-        display: true,
-        text: t('cdf.title'),
-      },
-      tooltip: {
-        mode: 'index',
-        intersect: false,
-      },
-    },
-    scales: {
-      x: {
+  const options: ChartOptions<'line'> = useMemo(
+    () => ({
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'top' as const,
+        },
         title: {
           display: true,
-          text: xAxisLabel ?? t('distribution.xAxis'),
+          text: t('cdf.title'),
         },
-        type: 'linear',
-        position: 'bottom',
-        ticks: {
-          stepSize: 1,
+        tooltip: {
+          mode: 'index',
+          intersect: false,
         },
       },
-      y: {
-        title: {
-          display: true,
-          text: t('cdf.yAxis'),
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: xAxisLabel ?? t('distribution.xAxis'),
+          },
+          type: 'linear',
+          position: 'bottom',
+          ticks: {
+            stepSize: 1,
+          },
+          ...(isRangeFixed && {
+            min: displayRangeMin,
+            max: displayRangeMax,
+          }),
         },
-        beginAtZero: true,
-        // max: 1.0,
+        y: {
+          title: {
+            display: true,
+            text: t('cdf.yAxis'),
+          },
+          beginAtZero: true,
+          // max: 1.0,
+        },
       },
-    },
-  };
+    }),
+    [t, xAxisLabel, isRangeFixed, displayRangeMin, displayRangeMax],
+  );
 
   return (
     <ChartWithDownloadButton onDownload={handleDownload}>
