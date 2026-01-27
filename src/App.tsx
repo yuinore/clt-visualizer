@@ -364,6 +364,105 @@ function App() {
           )}
         </Box>
 
+        <Paper
+          sx={{
+            mt: 4,
+            p: 3,
+            width: '100%',
+          }}
+        >
+          <Typography variant="h5" component="h2" gutterBottom>
+            {t('gallery.title')}
+          </Typography>
+          <Box
+            sx={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 2,
+              justifyContent: 'center',
+            }}
+          >
+            {(
+              [
+                'coin',
+                'dice',
+                'diceLoaded',
+                'binomial',
+                'normal',
+                'uniform',
+                'bernoulli',
+                'poisson',
+                'zeta',
+                'degenerate',
+                'lattice',
+                'differential',
+                'differentialCentral',
+                'iir',
+                'fir',
+                'customFir',
+              ] as DistributionType[]
+            ).map((distType) => {
+              const thumbnailMap: Record<string, string> = {
+                coin: 'coin.png',
+                dice: 'dice.png',
+                diceLoaded: 'dice-loaded.png',
+                binomial: 'binomial.png',
+                normal: 'normal.png',
+                uniform: 'uniform.png',
+                bernoulli: 'bernoulli.png',
+                poisson: 'poisson.png',
+                zeta: 'zeta.png',
+                degenerate: 'degenerate.png',
+                lattice: 'lattice.png',
+                differential: 'differential.png',
+                differentialCentral: 'differential-central.png',
+                iir: 'iir.png',
+                fir: 'fir.png',
+                customFir: 'custom-fir.png',
+              };
+              const thumbnail = thumbnailMap[distType];
+              if (!thumbnail) return null;
+
+              return (
+                <Box
+                  key={distType}
+                  onClick={() =>
+                    setDistributionType(distType as DistributionType)
+                  }
+                  sx={{
+                    cursor: 'pointer',
+                    border:
+                      distributionType === distType ? '3px solid' : '1px solid',
+                    borderColor:
+                      distributionType === distType
+                        ? 'primary.main'
+                        : 'divider',
+                    borderRadius: 1,
+                    overflow: 'hidden',
+                    transition: 'all 0.2s',
+                    '&:hover': {
+                      transform: 'scale(1.05)',
+                      boxShadow: 3,
+                    },
+                    width: { xs: '120px', sm: '150px', md: '180px' },
+                    height: { xs: '60px', sm: '75px', md: '90px' },
+                  }}
+                >
+                  <img
+                    src={`/thumbnails/${thumbnail}`}
+                    alt={DISTRIBUTIONS[distType as DistributionType].name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                    }}
+                  />
+                </Box>
+              );
+            })}
+          </Box>
+        </Paper>
+
         <Box
           sx={{
             mt: 4,

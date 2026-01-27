@@ -91,5 +91,8 @@
   },
   "chart": {
     "download": "PNGとしてダウンロード"
+  },
+  "gallery": {
+    "title": "ギャラリー"
   }
 }
