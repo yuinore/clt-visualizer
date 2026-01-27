@@ -46,6 +46,7 @@
     "xAxisValue": "Value",
     "xAxisTime": "Time (samples)",
     "yAxis": "Probability",
+    "barChartSwitch": "Show as bar chart",
     "params": {
       "length": "Length",
       "p": "Success Probability",

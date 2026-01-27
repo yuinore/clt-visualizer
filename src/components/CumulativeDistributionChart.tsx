@@ -42,7 +42,7 @@ export function CumulativeDistributionChart({
   xAxisLabel,
 }: CumulativeDistributionChartProps) {
   const { t } = useTranslation();
-  const { chartRef, handleDownload } = useChartDownload(
+  const { chartRef, handleDownload } = useChartDownload<ChartJS<'line'>>(
     'cumulative-distribution-chart.png',
   );
 

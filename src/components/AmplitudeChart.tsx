@@ -13,7 +13,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { useTranslation } from 'react-i18next';
-import type { ChartData } from 'chart.js';
+import type { ChartData, ChartDataset } from 'chart.js';
 import type { AmplitudePoint } from '../utils/zTransform';
 import { getHue, getLuminance, toDb } from '../utils/chartUtils';
 import { useChartDownload } from '../hooks/useChartDownload';
@@ -42,27 +42,31 @@ export function AmplitudeChart({
   isDb = false,
 }: AmplitudeChartProps) {
   const { t } = useTranslation();
-  const { chartRef, handleDownload } = useChartDownload('amplitude-chart.png');
+  const { chartRef, handleDownload } = useChartDownload<ChartJS<'line'>>(
+    'amplitude-chart.png',
+  );
 
   const chartData: ChartData<'line'> = useMemo(() => {
-    const datasets = amplitudeDataArray.map((amplitudeData, index) => {
-      const hue = getHue(index);
-      const luminance = getLuminance(index);
+    const datasets: ChartDataset<'line'>[] = amplitudeDataArray.map(
+      (amplitudeData, index) => {
+        const hue = getHue(index);
+        const luminance = getLuminance(index);
 
-      return {
-        label: labels[index] || `Amplitude ${index + 1}`,
-        data: amplitudeData.map((point) => ({
-          x: point.angularFrequency,
-          y: isDb ? toDb(point.amplitude) : point.amplitude,
-        })),
-        borderColor: `hsl(${hue}, 80%, ${luminance}%)`,
-        backgroundColor: `hsla(${hue}, 80%, ${luminance}%, 0.08)`,
-        fill: index === amplitudeDataArray.length - 1 ? 'start' : '+1',
-        tension: 0,
-        pointRadius: 0,
-        pointHoverRadius: 3,
-      };
-    });
+        return {
+          label: labels[index] || `Amplitude ${index + 1}`,
+          data: amplitudeData.map((point) => ({
+            x: point.angularFrequency,
+            y: isDb ? toDb(point.amplitude) : point.amplitude,
+          })),
+          borderColor: `hsl(${hue}, 80%, ${luminance}%)`,
+          backgroundColor: `hsla(${hue}, 80%, ${luminance}%, 0.08)`,
+          fill: index === amplitudeDataArray.length - 1 ? 'start' : '+1',
+          tension: 0,
+          pointRadius: 0,
+          pointHoverRadius: 3,
+        };
+      },
+    );
 
     // 0dB を灰色の点線で追加
     if (amplitudeDataArray.length > 0) {
@@ -82,8 +86,8 @@ export function AmplitudeChart({
         tension: 0,
         pointRadius: 0,
         pointHoverRadius: 3,
-      };
-      datasets.push(zeroDbData as any);
+      } as ChartDataset<'line'>;
+      datasets.push(zeroDbData);
     }
 
     return {

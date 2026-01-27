@@ -5,13 +5,14 @@ import {
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
   Filler,
   type ChartOptions,
 } from 'chart.js';
-import { Line } from 'react-chartjs-2';
+import { Line, Bar } from 'react-chartjs-2';
 import { useTranslation } from 'react-i18next';
 import type { ChartData } from 'chart.js';
 import { getHue, getLuminance } from '../utils/chartUtils';
@@ -23,6 +24,7 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Legend,
@@ -33,89 +35,124 @@ interface ProbabilityDistributionChartProps {
   distributions: number[][];
   labels: string[];
   xAxisLabel?: string;
+  chartType?: 'line' | 'bar';
 }
 
 export function ProbabilityDistributionChart({
   distributions,
   labels,
   xAxisLabel,
+  chartType = 'line',
 }: ProbabilityDistributionChartProps) {
   const { t } = useTranslation();
-  const { chartRef, handleDownload } = useChartDownload(
+  const lineChartRef = useChartDownload<ChartJS<'line'>>(
+    'probability-distribution-chart.png',
+  );
+  const barChartRef = useChartDownload<ChartJS<'bar'>>(
     'probability-distribution-chart.png',
   );
 
-  const chartData: ChartData<'line'> = useMemo(() => {
-    const datasets = distributions.map((dist, index) => {
-      const xValues: number[] = [];
-      for (let i = 0; i < dist.length; i++) {
-        xValues.push(i);
-      }
-
+  // 共通のデータセット準備ロジック
+  const datasets = useMemo(() => {
+    return distributions.map((dist, index) => {
       const hue = getHue(index);
       const luminance = getLuminance(index);
 
       // 表示を最初の101サンプルに制限
       const displayDist = dist.slice(0, 101);
 
-      return {
+      const baseDataset = {
         label: labels[index] || `Distribution ${index + 1}`,
         data: displayDist.map((prob, idx) => ({
           x: idx,
           y: prob,
         })),
         borderColor: `hsl(${hue}, 80%, ${luminance}%)`,
-        backgroundColor: `hsla(${hue}, 80%, ${luminance}%, 0.08)`,
-        fill: true,
-        tension: 0,
-        pointRadius: 3,
-        pointHoverRadius: 5,
+        backgroundColor: `hsla(${hue}, 80%, ${luminance}%, ${chartType === 'bar' ? 0.6 : 0.08})`,
       };
+
+      if (chartType === 'line') {
+        return {
+          ...baseDataset,
+          fill: true,
+          tension: 0,
+          pointRadius: 3,
+          pointHoverRadius: 5,
+        };
+      } else {
+        return {
+          ...baseDataset,
+          borderWidth: 1,
+        };
+      }
     });
+  }, [distributions, labels, chartType]);
 
-    return {
-      datasets,
-    };
-  }, [distributions, labels]);
+  const chartData = useMemo(() => {
+    return { datasets };
+  }, [datasets]);
 
-  const options: ChartOptions<'line'> = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: 'top' as const,
-      },
-      title: {
-        display: true,
-        text: t('distribution.title'),
-      },
-      tooltip: {
-        mode: 'index',
-        intersect: false,
-      },
-    },
-    scales: {
-      x: {
+  // 共通のオプション準備ロジック
+  const options = useMemo(
+    () => ({
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'top' as const,
+        },
         title: {
           display: true,
-          text: xAxisLabel ?? t('distribution.xAxis'),
+          text: t('distribution.title'),
         },
-        type: 'linear',
-        position: 'bottom',
-      },
-      y: {
-        title: {
-          display: true,
-          text: t('distribution.yAxis'),
+        tooltip: {
+          mode: 'index' as const,
+          intersect: false,
         },
-        beginAtZero: true,
       },
-    },
-  };
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: xAxisLabel ?? t('distribution.xAxis'),
+          },
+          type: 'linear' as const,
+          position: 'bottom' as const,
+          ticks: {
+            stepSize: 1,
+          },
+        },
+        y: {
+          title: {
+            display: true,
+            text: t('distribution.yAxis'),
+          },
+          beginAtZero: true,
+        },
+      },
+    }),
+    [t, xAxisLabel],
+  );
 
   return (
-    <ChartWithDownloadButton onDownload={handleDownload}>
-      <Line ref={chartRef} data={chartData} options={options} />
-    </ChartWithDownloadButton>
+    <>
+      {chartType === 'line' ? (
+        <ChartWithDownloadButton onDownload={lineChartRef.handleDownload}>
+          <Line
+            ref={lineChartRef.chartRef}
+            data={chartData as ChartData<'line'>}
+            options={options as ChartOptions<'line'>}
+          />
+        </ChartWithDownloadButton>
+      ) : (
+        <ChartWithDownloadButton onDownload={barChartRef.handleDownload}>
+          <Bar
+            ref={barChartRef.chartRef}
+            data={chartData as unknown as ChartData<'bar'>}
+            options={options as ChartOptions<'bar'>}
+          />
+        </ChartWithDownloadButton>
+      )}
+    </>
   );
 }

@@ -46,6 +46,7 @@
     "xAxisValue": "値",
     "xAxisTime": "時間 (サンプル)",
     "yAxis": "確率",
+    "barChartSwitch": "確率分布を棒グラフで表示",
     "params": {
       "length": "長さ",
       "p": "成功確率",

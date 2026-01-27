@@ -1,10 +1,8 @@
 import { useRef, useCallback } from 'react';
 import type { Chart } from 'chart.js';
 
-export function useChartDownload<T extends Chart = Chart<'line'>>(
-  filename: string,
-) {
-  const chartRef = useRef<T | undefined>(undefined);
+export function useChartDownload<T extends Chart = Chart>(filename: string) {
+  const chartRef = useRef<T | null>(null);
 
   const handleDownload = useCallback(() => {
     const chart = chartRef.current;

@@ -31,6 +31,7 @@ function App() {
     useState<DistributionType>('dice');
   const [convolutionCount, setConvolutionCount] = useState(6);
   const [isDb, setIsDb] = useState(false);
+  const [isBarChart, setIsBarChart] = useState(false);
   const [distributionParams, setDistributionParams] = useState<number[]>([]);
 
   const distribution = DISTRIBUTIONS[distributionType];
@@ -190,6 +191,7 @@ function App() {
                 distributions={distributionsForChart}
                 labels={distributionLabels}
                 xAxisLabel={xAxisLabel}
+                chartType={isBarChart ? 'bar' : 'line'}
               />
             </Paper>
             <Paper sx={{ p: 2, flex: 1 }}>
@@ -245,6 +247,40 @@ function App() {
               min={1}
               max={10}
             />
+            <Box
+              sx={{
+                mt: 2,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+              }}
+            >
+              <Switch
+                checked={isBarChart}
+                onChange={(_, checked) => setIsBarChart(checked)}
+                slotProps={{
+                  input: { 'aria-label': t('distribution.barChartSwitch') },
+                }}
+              />
+              <Typography variant="body1">
+                {t('distribution.barChartSwitch')}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                mt: 2,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+              }}
+            >
+              <Switch
+                checked={isDb}
+                onChange={(_, checked) => setIsDb(checked)}
+                slotProps={{ input: { 'aria-label': t('amplitude.dbSwitch') } }}
+              />
+              <Typography variant="body1">{t('amplitude.dbSwitch')}</Typography>
+            </Box>
           </Paper>
           {distribution.params && distribution.params.length > 0 && (
             <Paper sx={{ p: 2, flex: 1 }}>
@@ -255,22 +291,6 @@ function App() {
               />
             </Paper>
           )}
-          <Paper
-            sx={{
-              p: 2,
-              flex: 1,
-              display: 'flex',
-              alignItems: 'center',
-              gap: 1,
-            }}
-          >
-            <Switch
-              checked={isDb}
-              onChange={(_, checked) => setIsDb(checked)}
-              slotProps={{ input: { 'aria-label': t('amplitude.dbSwitch') } }}
-            />
-            <Typography variant="body1">{t('amplitude.dbSwitch')}</Typography>
-          </Paper>
         </Box>
       </Container>
     </ThemeProvider>

@@ -13,7 +13,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 import { useTranslation } from 'react-i18next';
-import type { ChartData } from 'chart.js';
+import type { ChartData, ChartDataset } from 'chart.js';
 import type { AmplitudePoint } from '../utils/zTransform';
 import { computeStepFunctionAmplitude } from '../utils/zTransform';
 import { getHue, getLuminance, toDb } from '../utils/chartUtils';
@@ -43,30 +43,32 @@ export function CumulativeAmplitudeChart({
   isDb = false,
 }: CumulativeAmplitudeChartProps) {
   const { t } = useTranslation();
-  const { chartRef, handleDownload } = useChartDownload(
+  const { chartRef, handleDownload } = useChartDownload<ChartJS<'line'>>(
     'cumulative-amplitude-chart.png',
   );
 
   const chartData: ChartData<'line'> = useMemo(() => {
     // 既存のCDF振幅特性のデータセット
-    const datasets = amplitudeDataArray.map((amplitudeData, index) => {
-      const hue = getHue(index);
-      const luminance = getLuminance(index);
+    const datasets: ChartDataset<'line'>[] = amplitudeDataArray.map(
+      (amplitudeData, index) => {
+        const hue = getHue(index);
+        const luminance = getLuminance(index);
 
-      return {
-        label: labels[index] || `CDF Amplitude ${index + 1}`,
-        data: amplitudeData.map((point) => ({
-          x: point.angularFrequency,
-          y: isDb ? toDb(point.amplitude) : point.amplitude,
-        })),
-        borderColor: `hsl(${hue}, 80%, ${luminance}%)`,
-        backgroundColor: `hsla(${hue}, 80%, ${luminance}%, 0.08)`,
-        fill: index === amplitudeDataArray.length - 1 ? 'start' : '+1',
-        tension: 0,
-        pointRadius: 0,
-        pointHoverRadius: 3,
-      };
-    });
+        return {
+          label: labels[index] || `CDF Amplitude ${index + 1}`,
+          data: amplitudeData.map((point) => ({
+            x: point.angularFrequency,
+            y: isDb ? toDb(point.amplitude) : point.amplitude,
+          })),
+          borderColor: `hsl(${hue}, 80%, ${luminance}%)`,
+          backgroundColor: `hsla(${hue}, 80%, ${luminance}%, 0.08)`,
+          fill: index === amplitudeDataArray.length - 1 ? 'start' : '+1',
+          tension: 0,
+          pointRadius: 0,
+          pointHoverRadius: 3,
+        };
+      },
+    );
 
     // ステップ関数の振幅特性を灰色の点線で追加
     if (amplitudeDataArray.length > 0) {
@@ -89,8 +91,8 @@ export function CumulativeAmplitudeChart({
         tension: 0,
         pointRadius: 0,
         pointHoverRadius: 3,
-      };
-      datasets.push(stepFunctionData as any);
+      } as ChartDataset<'line'>;
+      datasets.push(stepFunctionData);
     }
 
     return {
