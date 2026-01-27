@@ -1,6 +1,13 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Container, Box, Paper, Typography, Switch, Slider } from '@mui/material';
+import {
+  Container,
+  Box,
+  Paper,
+  Typography,
+  Switch,
+  Slider,
+} from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { DistributionSelector } from './components/DistributionSelector';
@@ -310,11 +317,14 @@ function App() {
             </Box>
             <Box sx={{ mt: 3, width: '100%' }}>
               <Typography gutterBottom>
-                {t('distribution.maxDisplayRange')}: [{displayRange[0]}, {displayRange[1]}]
+                {t('distribution.maxDisplayRange')}: [{displayRange[0]},{' '}
+                {displayRange[1]}]
               </Typography>
               <Slider
                 value={displayRange}
-                onChange={(_, newValue) => setDisplayRange(newValue as number[])}
+                onChange={(_, newValue) =>
+                  setDisplayRange(newValue as number[])
+                }
                 valueLabelDisplay="auto"
                 min={-200}
                 max={200}

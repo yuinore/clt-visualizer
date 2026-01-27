@@ -4,6 +4,9 @@ import type { Distribution } from './base';
 export const differentialCentral: Distribution = {
   type: 'differentialCentral',
   name: 'differentialCentral',
-  probabilities: [0.5, 0, -0.5],
+  probabilities: () => ({
+    offset: -1,
+    distribution: [0.5, 0, -0.5],
+  }),
   xAxisLabelKey: 'distribution.xAxisTime',
 };
