@@ -20,7 +20,7 @@ function normalProbabilities(params: number[]): DiscreteDistribution {
   // Normal distribution centered around mean
   // P(X = x) ∝ exp(-(x - mean)^2 / (2 * std^2))
   const sigma = std;
-  const halfLength = Math.ceil(sigma * 4);
+  const halfLength = Math.ceil(sigma * 5);
   const xOffset = Math.round(mean);
   const arrayOffset = xOffset - halfLength;
   const length = Math.ceil(halfLength * 2 + 1);
