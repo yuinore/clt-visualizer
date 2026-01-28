@@ -83,7 +83,8 @@
   },
   "cdf": {
     "title": "累積分布関数",
-    "yAxis": "累積確率"
+    "yAxis": "累積確率",
+    "showSwitch": "累積分布関数を表示"
   },
   "cdfAmplitude": {
     "title": "累積分布関数の振幅特性",

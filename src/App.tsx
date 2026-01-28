@@ -46,6 +46,7 @@ function App() {
   const [convolutionCount, setConvolutionCount] = useState(6);
   const [isDb, setIsDb] = useState(false);
   const [isBarChart, setIsBarChart] = useState(false);
+  const [showCDF, setShowCDF] = useState(false);
   const [distributionParams, setDistributionParams] = useState<number[]>([]);
   const [displayRange, setDisplayRange] = useState<number[]>([-60, 60]);
   const [isRangeFixed, setIsRangeFixed] = useState(false);
@@ -234,31 +235,33 @@ function App() {
               />
             </Paper>
           </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: { xs: 'column', lg: 'row' },
-              gap: 3,
-            }}
-          >
-            <Paper sx={{ p: 2, flex: 1 }}>
-              <CumulativeDistributionChart
-                distributions={distributionsForChart}
-                labels={distributionLabels}
-                xAxisLabel={xAxisLabel}
-                displayRangeMin={displayRange[0]}
-                displayRangeMax={displayRange[1]}
-                isRangeFixed={isRangeFixed}
-              />
-            </Paper>
-            <Paper sx={{ p: 2, flex: 1 }}>
-              <CumulativeAmplitudeChart
-                amplitudeDataArray={cdfAmplitudeDataArray}
-                labels={distributionLabels}
-                isDb={isDb}
-              />
-            </Paper>
-          </Box>
+          {showCDF && (
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: { xs: 'column', lg: 'row' },
+                gap: 3,
+              }}
+            >
+              <Paper sx={{ p: 2, flex: 1 }}>
+                <CumulativeDistributionChart
+                  distributions={distributionsForChart}
+                  labels={distributionLabels}
+                  xAxisLabel={xAxisLabel}
+                  displayRangeMin={displayRange[0]}
+                  displayRangeMax={displayRange[1]}
+                  isRangeFixed={isRangeFixed}
+                />
+              </Paper>
+              <Paper sx={{ p: 2, flex: 1 }}>
+                <CumulativeAmplitudeChart
+                  amplitudeDataArray={cdfAmplitudeDataArray}
+                  labels={distributionLabels}
+                  isDb={isDb}
+                />
+              </Paper>
+            </Box>
+          )}
         </Box>
 
         <Box
@@ -315,6 +318,21 @@ function App() {
                 slotProps={{ input: { 'aria-label': t('amplitude.dbSwitch') } }}
               />
               <Typography variant="body1">{t('amplitude.dbSwitch')}</Typography>
+            </Box>
+            <Box
+              sx={{
+                mt: 2,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+              }}
+            >
+              <Switch
+                checked={showCDF}
+                onChange={(_, checked) => setShowCDF(checked)}
+                slotProps={{ input: { 'aria-label': t('cdf.showSwitch') } }}
+              />
+              <Typography variant="body1">{t('cdf.showSwitch')}</Typography>
             </Box>
             <Box sx={{ mt: 3, width: '100%' }}>
               <Typography gutterBottom>

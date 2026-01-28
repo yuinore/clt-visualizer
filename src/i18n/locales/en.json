@@ -83,7 +83,8 @@
   },
   "cdf": {
     "title": "Cumulative Distribution Function",
-    "yAxis": "Cumulative Probability"
+    "yAxis": "Cumulative Probability",
+    "showSwitch": "Show Cumulative Distribution Function"
   },
   "cdfAmplitude": {
     "title": "CDF Amplitude Characteristics",
