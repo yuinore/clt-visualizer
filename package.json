@@ -1,8 +1,26 @@
 {
   "name": "clt-visualizer",
-  "private": true,
   "version": "0.0.0",
+  "description": "A web application for visualizing the Central Limit Theorem (CLT) through the convolution of probability distributions and impulse responses",
   "type": "module",
+  "license": "MIT",
+  "author": "yuinore",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yuinore/clt-visualizer.git"
+  },
+  "homepage": "https://github.com/yuinore/clt-visualizer#readme",
+  "keywords": [
+    "central-limit-theorem",
+    "clt",
+    "probability",
+    "distribution",
+    "visualization",
+    "convolution",
+    "z-transform",
+    "react",
+    "typescript"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
