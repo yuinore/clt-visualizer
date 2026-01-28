@@ -475,12 +475,12 @@ function App() {
           <Typography variant="body2" color="text.secondary">
             Directed & Built by yuinore / See GitHub →{' '}
             <Link
-              href="https://github.com/yuinore"
+              href="https://github.com/yuinore/clt-visualizer"
               target="_blank"
               rel="noopener noreferrer"
               sx={{ textDecoration: 'none' }}
             >
-              https://github.com/yuinore
+              https://github.com/yuinore/clt-visualizer
             </Link>
           </Typography>
         </Box>
