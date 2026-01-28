@@ -2,6 +2,8 @@
 
 A web application for visualizing the Central Limit Theorem (CLT) through the convolution of probability distributions and impulse responses.
 
+![Twitter Card](public/twitter-card.jpg)
+
 ## Features
 
 - **Multiple Distribution Types**: Support for various probability distributions and filter impulse responses
@@ -33,18 +35,18 @@ A web application for visualizing the Central Limit Theorem (CLT) through the co
 ### Prerequisites
 
 - Node.js (v18 or higher recommended)
-- npm or yarn
+- yarn
 
 ### Installation
 
 ```bash
-npm install
+yarn install
 ```
 
 ### Development
 
 ```bash
-npm run dev
+yarn dev
 ```
 
 The application will be available at `http://localhost:5173` (or the port shown in the terminal).
@@ -52,7 +54,7 @@ The application will be available at `http://localhost:5173` (or the port shown 
 ### Build
 
 ```bash
-npm run build
+yarn build
 ```
 
 The built files will be in the `dist` directory.
@@ -60,17 +62,17 @@ The built files will be in the `dist` directory.
 ### Preview Production Build
 
 ```bash
-npm run preview
+yarn preview
 ```
 
 ## Available Scripts
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
-- `npm run prettier` - Format code with Prettier
-- `npm run prettier:check` - Check code formatting
+- `yarn dev` - Start development server
+- `yarn build` - Build for production
+- `yarn preview` - Preview production build
+- `yarn lint` - Run ESLint
+- `yarn prettier` - Format code with Prettier
+- `yarn prettier:check` - Check code formatting
 
 ## Project Structure
 
