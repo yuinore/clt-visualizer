@@ -70,9 +70,9 @@ yarn preview
 - `yarn dev` - Start development server
 - `yarn build` - Build for production
 - `yarn preview` - Preview production build
-- `yarn lint` - Run ESLint
-- `yarn prettier` - Format code with Prettier
-- `yarn prettier:check` - Check code formatting
+- `yarn lint:fix` - Run ESLint
+- `yarn format` - Format code with Prettier
+- `yarn format:check` - Check code formatting
 
 ## Project Structure
 
