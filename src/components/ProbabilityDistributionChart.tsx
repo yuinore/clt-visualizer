@@ -41,6 +41,7 @@ interface ProbabilityDistributionChartProps {
   displayRangeMin?: number;
   displayRangeMax?: number;
   isRangeFixed?: boolean;
+  scaleXAxisBySqrtN?: boolean;
 }
 
 export function ProbabilityDistributionChart({
@@ -51,6 +52,7 @@ export function ProbabilityDistributionChart({
   displayRangeMin = -100,
   displayRangeMax = 100,
   isRangeFixed = false,
+  scaleXAxisBySqrtN = false,
 }: ProbabilityDistributionChartProps) {
   const { t } = useTranslation();
   const lineChartRef = useChartDownload<ChartJS<'line'>>(
@@ -66,14 +68,20 @@ export function ProbabilityDistributionChart({
       const hue = getHue(index);
       const luminance = getLuminance(index);
 
+      const xScale = scaleXAxisBySqrtN ? Math.sqrt(index + 1) : 1;
+
       // 表示範囲を制限
-      const displayDist = limitRange(dist, displayRangeMin, displayRangeMax);
+      const displayDist = limitRange(
+        dist,
+        Math.ceil(displayRangeMin * xScale),
+        Math.floor(displayRangeMax * xScale),
+      );
 
       const baseDataset = {
         label: labels[index] || `Distribution ${index + 1}`,
         data: displayDist.distribution.map((prob, idx) => ({
-          x: idx + displayDist.offset,
-          y: prob,
+          x: (idx + displayDist.offset) / xScale,
+          y: prob * xScale,
         })),
         borderColor: `hsl(${hue}, 80%, ${luminance}%)`,
         backgroundColor: `hsla(${hue}, 80%, ${luminance}%, ${chartType === 'bar' ? 0.6 : 0.08})`,
@@ -94,7 +102,14 @@ export function ProbabilityDistributionChart({
         };
       }
     });
-  }, [distributions, labels, chartType, displayRangeMin, displayRangeMax]);
+  }, [
+    distributions,
+    labels,
+    chartType,
+    displayRangeMin,
+    displayRangeMax,
+    scaleXAxisBySqrtN,
+  ]);
 
   const chartData = useMemo(() => {
     return { datasets };

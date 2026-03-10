@@ -50,6 +50,7 @@ function App() {
   const [distributionParams, setDistributionParams] = useState<number[]>([]);
   const [displayRange, setDisplayRange] = useState<number[]>([-60, 60]);
   const [isRangeFixed, setIsRangeFixed] = useState(false);
+  const [scaleXAxisBySqrtN, setScaleXAxisBySqrtN] = useState(false);
 
   const distribution = DISTRIBUTIONS[distributionType];
   const prevDistributionTypeRef = useRef<DistributionType>(distributionType);
@@ -225,6 +226,7 @@ function App() {
                 displayRangeMin={displayRange[0]}
                 displayRangeMax={displayRange[1]}
                 isRangeFixed={isRangeFixed}
+                scaleXAxisBySqrtN={scaleXAxisBySqrtN}
               />
             </Paper>
             <Paper sx={{ p: 2, flex: 1 }}>
@@ -232,6 +234,7 @@ function App() {
                 amplitudeDataArray={amplitudeDataArray}
                 labels={distributionLabels}
                 isDb={isDb}
+                scaleXAxisBySqrtN={scaleXAxisBySqrtN}
               />
             </Paper>
           </Box>
@@ -251,6 +254,7 @@ function App() {
                   displayRangeMin={displayRange[0]}
                   displayRangeMax={displayRange[1]}
                   isRangeFixed={isRangeFixed}
+                  scaleXAxisBySqrtN={scaleXAxisBySqrtN}
                 />
               </Paper>
               <Paper sx={{ p: 2, flex: 1 }}>
@@ -258,6 +262,7 @@ function App() {
                   amplitudeDataArray={cdfAmplitudeDataArray}
                   labels={distributionLabels}
                   isDb={isDb}
+                  scaleXAxisBySqrtN={scaleXAxisBySqrtN}
                 />
               </Paper>
             </Box>
@@ -296,6 +301,7 @@ function App() {
               <Switch
                 checked={isBarChart}
                 onChange={(_, checked) => setIsBarChart(checked)}
+                disabled={scaleXAxisBySqrtN}
                 slotProps={{
                   input: { 'aria-label': t('distribution.barChartSwitch') },
                 }}
@@ -368,6 +374,26 @@ function App() {
               />
               <Typography variant="body1">
                 {t('distribution.fixDisplayRange')}
+              </Typography>
+            </Box>
+            <Box
+              sx={{
+                mt: 2,
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1,
+              }}
+            >
+              <Switch
+                checked={scaleXAxisBySqrtN}
+                onChange={(_, checked) => setScaleXAxisBySqrtN(checked)}
+                disabled={isBarChart}
+                slotProps={{
+                  input: { 'aria-label': t('distribution.scaleBySqrtN') },
+                }}
+              />
+              <Typography variant="body1">
+                {t('distribution.scaleBySqrtN')}
               </Typography>
             </Box>
           </Paper>

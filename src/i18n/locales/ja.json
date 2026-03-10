@@ -51,6 +51,7 @@
     "barChartSwitch": "確率分布を棒グラフで表示",
     "maxDisplayRange": "最大表示範囲",
     "fixDisplayRange": "表示範囲を固定",
+    "scaleBySqrtN": "分布を √n でスケール",
     "params": {
       "length": "長さ",
       "p": "成功確率",

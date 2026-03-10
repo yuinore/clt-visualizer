@@ -34,12 +34,14 @@ interface AmplitudeChartProps {
   amplitudeDataArray: AmplitudePoint[][];
   labels: string[];
   isDb?: boolean;
+  scaleXAxisBySqrtN?: boolean;
 }
 
 export function AmplitudeChart({
   amplitudeDataArray,
   labels,
   isDb = false,
+  scaleXAxisBySqrtN = false,
 }: AmplitudeChartProps) {
   const { t } = useTranslation();
   const { chartRef, handleDownload } = useChartDownload<ChartJS<'line'>>(
@@ -52,10 +54,12 @@ export function AmplitudeChart({
         const hue = getHue(index);
         const luminance = getLuminance(index);
 
+        const xScale = scaleXAxisBySqrtN ? Math.sqrt(index + 1) : 1;
+
         return {
           label: labels[index] || `Amplitude ${index + 1}`,
           data: amplitudeData.map((point) => ({
-            x: point.angularFrequency,
+            x: point.angularFrequency * xScale,
             y: isDb ? toDb(point.amplitude) : point.amplitude,
           })),
           borderColor: `hsl(${hue}, 80%, ${luminance}%)`,
@@ -93,7 +97,7 @@ export function AmplitudeChart({
     return {
       datasets,
     };
-  }, [amplitudeDataArray, labels, isDb]);
+  }, [amplitudeDataArray, labels, isDb, scaleXAxisBySqrtN]);
 
   const options: ChartOptions<'line'> = {
     responsive: true,

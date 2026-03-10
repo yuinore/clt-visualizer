@@ -35,12 +35,14 @@ interface CumulativeAmplitudeChartProps {
   amplitudeDataArray: AmplitudePoint[][];
   labels: string[];
   isDb?: boolean;
+  scaleXAxisBySqrtN?: boolean;
 }
 
 export function CumulativeAmplitudeChart({
   amplitudeDataArray,
   labels,
   isDb = false,
+  scaleXAxisBySqrtN = false,
 }: CumulativeAmplitudeChartProps) {
   const { t } = useTranslation();
   const { chartRef, handleDownload } = useChartDownload<ChartJS<'line'>>(
@@ -54,11 +56,13 @@ export function CumulativeAmplitudeChart({
         const hue = getHue(index);
         const luminance = getLuminance(index);
 
+        const xScale = scaleXAxisBySqrtN ? Math.sqrt(index + 1) : 1;
+
         return {
           label: labels[index] || `CDF Amplitude ${index + 1}`,
           data: amplitudeData.map((point) => ({
-            x: point.angularFrequency,
-            y: isDb ? toDb(point.amplitude) : point.amplitude,
+            x: point.angularFrequency * xScale,
+            y: isDb ? toDb(point.amplitude / xScale) : point.amplitude / xScale,
           })),
           borderColor: `hsl(${hue}, 80%, ${luminance}%)`,
           backgroundColor: `hsla(${hue}, 80%, ${luminance}%, 0.08)`,
@@ -98,7 +102,7 @@ export function CumulativeAmplitudeChart({
     return {
       datasets,
     };
-  }, [amplitudeDataArray, labels, isDb, t]);
+  }, [amplitudeDataArray, labels, isDb, t, scaleXAxisBySqrtN]);
 
   const options: ChartOptions<'line'> = {
     responsive: true,

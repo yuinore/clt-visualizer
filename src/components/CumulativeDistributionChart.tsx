@@ -39,6 +39,7 @@ interface CumulativeDistributionChartProps {
   displayRangeMin?: number;
   displayRangeMax?: number;
   isRangeFixed?: boolean;
+  scaleXAxisBySqrtN?: boolean;
 }
 
 export function CumulativeDistributionChart({
@@ -48,6 +49,7 @@ export function CumulativeDistributionChart({
   displayRangeMin = -100,
   displayRangeMax = 100,
   isRangeFixed = false,
+  scaleXAxisBySqrtN = false,
 }: CumulativeDistributionChartProps) {
   const { t } = useTranslation();
   const { chartRef, handleDownload } = useChartDownload<ChartJS<'line'>>(
@@ -62,18 +64,19 @@ export function CumulativeDistributionChart({
       const hue = getHue(index);
       const luminance = getLuminance(index);
 
-      // 表示範囲を制限
-      const displayCdf = limitRange(cdf, displayRangeMin, displayRangeMax);
+      const xScale = scaleXAxisBySqrtN ? Math.sqrt(index + 1) : 1;
 
-      const xValues: number[] = [];
-      for (let i = 0; i < displayCdf.distribution.length; i++) {
-        xValues.push(i + displayCdf.offset);
-      }
+      // 表示範囲を制限
+      const displayCdf = limitRange(
+        cdf,
+        Math.ceil(displayRangeMin * xScale),
+        Math.floor(displayRangeMax * xScale),
+      );
 
       return {
         label: labels[index] || `CDF ${index + 1}`,
         data: displayCdf.distribution.map((prob, idx) => ({
-          x: idx + displayCdf.offset,
+          x: (idx + displayCdf.offset) / xScale,
           y: prob,
         })),
         borderColor: `hsl(${hue}, 80%, ${luminance}%)`,
@@ -88,7 +91,13 @@ export function CumulativeDistributionChart({
     return {
       datasets,
     };
-  }, [distributions, labels, displayRangeMin, displayRangeMax]);
+  }, [
+    distributions,
+    labels,
+    displayRangeMin,
+    displayRangeMax,
+    scaleXAxisBySqrtN,
+  ]);
 
   const options: ChartOptions<'line'> = useMemo(
     () => ({
