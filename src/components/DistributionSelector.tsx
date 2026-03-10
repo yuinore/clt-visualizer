@@ -49,6 +49,9 @@ export function DistributionSelector({
           <MenuItem value="differentialCentral">
             {t('distribution.differentialCentral')}
           </MenuItem>
+          <MenuItem value="iirFirstOrderLowpass">
+            {t('distribution.iirFirstOrderLowpass')}
+          </MenuItem>
           <MenuItem value="iir">{t('distribution.iir')}</MenuItem>
           <MenuItem value="fir">{t('distribution.fir')}</MenuItem>
           <MenuItem value="customFir">{t('distribution.customFir')}</MenuItem>
@@ -87,6 +90,11 @@ export function DistributionSelector({
       {value === 'customFir' && (
         <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
           {t('distribution.customFirDescription')}
+        </Typography>
+      )}
+      {value === 'iirFirstOrderLowpass' && (
+        <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+          {t('distribution.iirFirstOrderLowpassDescription')}
         </Typography>
       )}
       {value === 'iir' && (

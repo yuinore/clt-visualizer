@@ -24,8 +24,10 @@
     "firDescription": "FIR ローパスフィルタのインパルス応答の例。非負ではないため、確率分布であるための条件を満たさない。",
     "customFir": "カスタム FIR",
     "customFirDescription": "11個のサンプル値を-1から1の範囲で指定できるカスタムFIRフィルタのインパルス応答。絶対値の総和で正規化される。",
-    "iir": "IIR ローパスフィルタ",
-    "iirDescription": "IIR ローパスフィルタのインパルス応答の例。非負ではないため、確率分布であるための条件を満たさない。",
+    "iirFirstOrderLowpass": "一次 IIR ローパスフィルタ",
+    "iirFirstOrderLowpassDescription": "一次 IIR ローパスフィルタのインパルス応答。フィードバック係数 α により時間方向に指数関数的に急速に減衰する。",
+    "iir": "高 Q ローパスフィルタ",
+    "iirDescription": "高 Q の IIR ローパスフィルタのインパルス応答の例。非負ではないため、確率分布であるための条件を満たさない。",
     "differential": "差分フィルタ",
     "differentialDescription": "連続時間における微分に相当し、一次の IIR ハイパスフィルタのインパルス応答。非負ではないため、確率分布であるための条件を満たさない。",
     "differentialCentral": "中心差分フィルタ",
@@ -70,7 +72,8 @@
       "sample10": "サンプル 10",
       "s": "指数 (s)",
       "mean": "平均 (μ)",
-      "std": "標準偏差 (σ)"
+      "std": "標準偏差 (σ)",
+      "alpha": "フィードバック係数 α"
     }
   },
   "amplitude": {

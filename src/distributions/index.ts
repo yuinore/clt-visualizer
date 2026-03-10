@@ -15,6 +15,7 @@ import { lattice } from './lattice';
 import { customFir } from './customFir';
 import { zeta } from './zeta';
 import { normal } from './normal';
+import { iirFirstOrderLowpass } from './iirFirstOrderLowpass';
 
 export const DISTRIBUTIONS: DistributionMap = {
   [coin.type]: coin,
@@ -33,6 +34,7 @@ export const DISTRIBUTIONS: DistributionMap = {
   [customFir.type]: customFir,
   [zeta.type]: zeta,
   [normal.type]: normal,
+  [iirFirstOrderLowpass.type]: iirFirstOrderLowpass,
 };
 
 export {
@@ -52,6 +54,7 @@ export {
   customFir,
   zeta,
   normal,
+  iirFirstOrderLowpass,
 };
 
 export type { Distribution } from './base';

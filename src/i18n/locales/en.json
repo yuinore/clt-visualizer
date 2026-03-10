@@ -24,8 +24,10 @@
     "firDescription": "Example of impulse response of FIR low-pass filter. It does not satisfy the conditions for a probability distribution because it is not non-negative.",
     "customFir": "Custom FIR",
     "customFirDescription": "Custom FIR filter impulse response with 11 samples adjustable from -1 to 1. Normalized by the sum of absolute values.",
-    "iir": "IIR Low-pass Filter",
-    "iirDescription": "Example of impulse response of IIR low-pass filter. It does not satisfy the conditions for a probability distribution because it is not non-negative.",
+    "iirFirstOrderLowpass": "First-order IIR Low-pass Filter",
+    "iirFirstOrderLowpassDescription": "Impulse response of a first-order IIR low-pass filter whose feedback coefficient α controls the rapid exponential decay over time.",
+    "iir": "High-Q Low-pass Filter",
+    "iirDescription": "Example of the impulse response of a high-Q IIR low-pass filter. It does not satisfy the conditions for a probability distribution because it is not non-negative.",
     "differential": "Difference Filter",
     "differentialDescription": "Discrete-time difference, impulse response of a first-order IIR high-pass filter. It does not satisfy the conditions for a probability distribution because it is not non-negative.",
     "differentialCentral": "Central Difference Filter",
@@ -70,7 +72,8 @@
       "sample10": "Sample 10",
       "s": "Exponent (s)",
       "mean": "Mean (μ)",
-      "std": "Standard Deviation (σ)"
+      "std": "Standard Deviation (σ)",
+      "alpha": "Feedback coefficient α"
     }
   },
   "amplitude": {
